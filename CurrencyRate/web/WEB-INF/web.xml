@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>nhi.servlets.TestServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MainServlet</servlet-name>
+        <servlet-class>nhi.servlets.MainServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ExchangeServlet</servlet-name>
+        <servlet-class>nhi.servlets.ExchangeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/TestServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
+        <url-pattern>/MainServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ExchangeServlet</servlet-name>
+        <url-pattern>/ExchangeServlet</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>test.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
