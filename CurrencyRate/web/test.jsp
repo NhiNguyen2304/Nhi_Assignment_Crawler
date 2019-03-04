@@ -14,9 +14,17 @@
     </head>
     <form name="change" action="MainServlet">
         <input type="submit" value="Next" name="btAction" />
-    </form>
+    </form><br/>
+    <form name="change" action="MainServlet">
+        <input type="submit" value="GetHighest" name="btAction" />
+    </form><br/>
+    <c:if test="${sessionScope.H30 gt 0}">
+         <p>Highest Rate in 30 days: ${sessionScope.H30}</p>
+         <p>Avg in 30 days: ${sessionScope.A30}</p>
+    </c:if>
+   
     <form name="Exchage" action="MainServlet">
-        <input type="text" name="txtFrom" value="${txtFrom}" /><br/>
+        <input type="text" name="txtFrom" value="${requestScope.FROM}" /><br/>
         <input type="text" name="txtTo" value="" /><br/>
         <input type="text" name="txtResult" value="${requestScope.EX}" /><br/>
         <input type="submit" value="Exchange" name="btAction" />

@@ -145,5 +145,89 @@ public class CurrencyDAO implements Serializable {
         return currency;
     
     }
+    public float getHighestRate(String code) {
+        ArrayList<CurrencyDTO> comparables = null;
+        float highestRate = 0;
+        CurrencyDTO dtoTmp = new CurrencyDTO();
+        float temp = 0;
+        float compaPresent = 0;
+        float result = 0;
+        boolean isFind = false;
+        try {
+            String sql = "Select TOP 30 buying from Currency where currencyCode=?";
+            conn = MyConnection.getConnection();
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, code);
+            rs = stm.executeQuery();
+            comparables = new ArrayList<>();
+            
+            while (rs.next()) {
+                CurrencyDTO dto = new CurrencyDTO();
+                // get current rate - past rate
+                if (!isFind) {
+                    temp = rs.getFloat("buying");
+                    isFind = true;
+                } else {
+                    compaPresent = rs.getFloat("buying");
+                    result = compaPresent - temp;
+                   
+                    if (result > highestRate){
+                         highestRate = result;
+                    }
+                   
+                    temp = compaPresent;
+                }
+                //CurrencyDTO dtoTemp = new CurrencyDTO();
+                //dto.setCurrencyCode(rs.getString("currencyCode"));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return highestRate;
+    }
+     public float getAverageRate(String code) {
+        ArrayList<CurrencyDTO> comparables = null;
+        float averageRate = 0;
+        float sum = 0;
+        CurrencyDTO dtoTmp = new CurrencyDTO();
+        float temp = 0;
+        float compaPresent = 0;
+        float result = 0;
+        boolean isFind = false;
+        try {
+            String sql = "Select TOP 30 buying from Currency where currencyCode=?";
+            conn = MyConnection.getConnection();
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, code);
+            rs = stm.executeQuery();
+            comparables = new ArrayList<>();
+            
+            while (rs.next()) {
+                CurrencyDTO dto = new CurrencyDTO();
+                // get current rate - past rate
+                if (!isFind) {
+                    temp = rs.getFloat("buying");
+                    isFind = true;
+                } else {
+                    compaPresent = rs.getFloat("buying");
+                    result = compaPresent - temp;
+                   
+                   sum += result;
+                   
+                    temp = compaPresent;
+                }
+                //CurrencyDTO dtoTemp = new CurrencyDTO();
+                //dto.setCurrencyCode(rs.getString("currencyCode"));
+
+            }
+            averageRate = sum /30;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return averageRate;
+    }
 
 }

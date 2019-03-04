@@ -12,6 +12,10 @@
         <servlet-name>ExchangeServlet</servlet-name>
         <servlet-class>nhi.servlets.ExchangeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HighestRateServlet</servlet-name>
+        <servlet-class>nhi.servlets.HighestRateServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/TestServlet</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ExchangeServlet</servlet-name>
         <url-pattern>/ExchangeServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HighestRateServlet</servlet-name>
+        <url-pattern>/HighestRateServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

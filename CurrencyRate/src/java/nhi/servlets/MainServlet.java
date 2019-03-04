@@ -23,6 +23,7 @@ public class MainServlet extends HttpServlet {
     private final String error = "errorPage.jsp";
     private final String testServlet = "TestServlet";
     private final String exchangeServlet = "ExchangeServlet";
+    private final String highestRateServlet = "HighestRateServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,6 +47,8 @@ public class MainServlet extends HttpServlet {
                 url = testServlet;
             } else if (button.equals("Exchange")) {
                 url = exchangeServlet;
+            }else if (button.equals("GetHighest")){
+                url = highestRateServlet;
             }
              RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);

@@ -5,23 +5,21 @@
  */
 package nhi.servlets;
 
-import com.sun.javafx.binding.StringFormatter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import nhi.daos.CurrencyDAO;
 
 /**
  *
  * @author admin
  */
-public class ExchangeServlet extends HttpServlet {
+public class HighestRateServlet extends HttpServlet {
 
     private final String exchangePage = "test.jsp";
     private final String error = "errorPage.jsp";
@@ -41,27 +39,20 @@ public class ExchangeServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url = error;
         try {
-            String from = request.getParameter("txtFrom");
-            String fromParsed = from.replace("0", "");
-            long fromParsedToLong = Long.parseLong(fromParsed);
-            long result = 0;
-            LocalDate localDate = LocalDate.now();//For reference
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
-            //String to = request.getParameter("txtTo");
             CurrencyDAO dao = new CurrencyDAO();
-            if (fromParsedToLong != 0) {
-                float currencyEx = dao.getCurrency("AUD", localDate.format(formatter));
-                result = (long) (fromParsedToLong * currencyEx);
-                //String parsedResult = String.valueOf(result); 
-                DecimalFormat fm = new DecimalFormat("#,000");
-                request.setAttribute("EX", fm.format(result));
-                request.setAttribute("FROM", from);
-                //request.setAttribute("EX", result);
+            HttpSession session = request.getSession();
+            float highestRateIn30 = 0;
+            float avgRateIn30 = 0;
+            highestRateIn30 = dao.getHighestRate("AUD");
+            avgRateIn30 = dao.getAverageRate("AUD");
+            if (highestRateIn30 != 0){
+                session.setAttribute("H30", highestRateIn30);
+                session.setAttribute("A30", avgRateIn30);
                 url = exchangePage;
             }
-
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
             out.close();
         }
     }
