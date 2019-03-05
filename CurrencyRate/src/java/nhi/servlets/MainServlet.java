@@ -7,11 +7,15 @@ package nhi.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import nhi.daos.CurrencyDAO;
+import nhi.dto.CurrencyDTO;
 
 /**
  *
@@ -20,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 public class MainServlet extends HttpServlet {
 
     private final String indexPage = "index.jsp";
+    private final String testPage = "test.jsp";
     private final String error = "errorPage.jsp";
     private final String testServlet = "TestServlet";
     private final String exchangeServlet = "ExchangeServlet";
@@ -41,18 +46,29 @@ public class MainServlet extends HttpServlet {
         String url = error;
         try {
             String button = request.getParameter("btAction");
+            CurrencyDAO dao = new CurrencyDAO();
+            ArrayList<CurrencyDTO> countries = new ArrayList<>();
+
+            if (countries != null) {
+                countries = dao.getCountries("04-03-2019");
+                HttpSession session = request.getSession();
+                session.setAttribute("COUNTRIES", countries);
+                url = testPage;
+            }
+
             if (button == null) {
 
             } else if (button.equals("Next")) {
                 url = testServlet;
             } else if (button.equals("Exchange")) {
                 url = exchangeServlet;
-            }else if (button.equals("GetHighest")){
+            } else if (button.equals("GetHighest")) {
                 url = highestRateServlet;
             }
+           
+        } finally {
              RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
-        } finally {
             out.close();
         }
     }

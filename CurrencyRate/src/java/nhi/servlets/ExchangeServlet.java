@@ -43,21 +43,30 @@ public class ExchangeServlet extends HttpServlet {
         try {
             String from = request.getParameter("txtFrom");
             String fromParsed = from.replace("0", "");
-            long fromParsedToLong = Long.parseLong(fromParsed);
+            long fromParsedToLong = 0;
+            String item = request.getParameter("listCountryTo");
+            if (fromParsed != null){
+             fromParsedToLong = Long.parseLong(fromParsed);
+            }
+           
             long result = 0;
             LocalDate localDate = LocalDate.now();//For reference
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
             //String to = request.getParameter("txtTo");
             CurrencyDAO dao = new CurrencyDAO();
             if (fromParsedToLong != 0) {
-                float currencyEx = dao.getCurrency("AUD", localDate.format(formatter));
-                result = (long) (fromParsedToLong * currencyEx);
-                //String parsedResult = String.valueOf(result); 
-                DecimalFormat fm = new DecimalFormat("#,000");
-                request.setAttribute("EX", fm.format(result));
-                request.setAttribute("FROM", from);
-                //request.setAttribute("EX", result);
-                url = exchangePage;
+                if (item.equals(item)) {
+                    //float currencyEx = dao.getCurrency(item, localDate.format(formatter));
+                    float currencyEx = dao.getCurrency(item, "04-03-2019");
+                    result = (long) (fromParsedToLong * currencyEx);
+                    //String parsedResult = String.valueOf(result); 
+                    DecimalFormat fm = new DecimalFormat("#,000");
+                    request.setAttribute("EX", fm.format(result));
+                    request.setAttribute("FROM", from);
+                    //request.setAttribute("EX", result);
+                    url = exchangePage;
+                }
+
             }
 
         } finally {

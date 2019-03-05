@@ -229,5 +229,25 @@ public class CurrencyDAO implements Serializable {
 
         return averageRate;
     }
+     public ArrayList<CurrencyDTO> getCountries(String date){
+         ArrayList<CurrencyDTO> countries = new ArrayList<>();
+         try {
+             String sql = "Select currencyCode, name from Currency where date = ? ORDER BY name ASC";
+             conn = MyConnection.getConnection();
+             stm = conn.prepareStatement(sql);
+             stm.setString(1, date);
+             rs = stm.executeQuery();
+             while(rs.next()){
+                CurrencyDTO dto = new CurrencyDTO();
+                dto.setCurrencyCode(rs.getString("currencyCode"));
+                dto.setName(rs.getString("name"));
+                countries.add(dto);
+             }
+             
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         return countries;
+     }
 
 }

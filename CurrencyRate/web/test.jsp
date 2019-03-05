@@ -19,14 +19,41 @@
         <input type="submit" value="GetHighest" name="btAction" />
     </form><br/>
     <c:if test="${sessionScope.H30 gt 0}">
-         <p>Highest Rate in 30 days: ${sessionScope.H30}</p>
-         <p>Avg in 30 days: ${sessionScope.A30}</p>
+        <p>Highest Rate in 30 days: ${sessionScope.H30}</p>
+        <p>Avg in 30 days: ${sessionScope.A30}</p>
     </c:if>
-   
-    <form name="Exchage" action="MainServlet">
-        <input type="text" name="txtFrom" value="${requestScope.FROM}" /><br/>
-        <input type="text" name="txtTo" value="" /><br/>
-        <input type="text" name="txtResult" value="${requestScope.EX}" /><br/>
+
+
+        <form name="Exchage" action="MainServlet" method="POST">
+        <select name="listCountryFrom">  
+
+            <c:forEach var="list" items="${sessionScope.COUNTRIES}">
+                <option value="${list.currencyCode}" <c:if test="${param.listCountryFrom eq list.currencyCode}">selected</c:if>>       
+                    ${list.name}
+                </option>
+
+                <br/>        
+            </c:forEach>
+                <option value="VND"<c:if test="${param.listCountryFrom eq 'VND'}">selected</c:if>>
+                        VietNam dong
+                </option>
+            </select><br/>
+            From: <input type="text" name="txtFrom" value="${requestScope.FROM}" /><br/>
+        <select name="listCountryTo">
+            
+            <c:forEach var="list" items="${sessionScope.COUNTRIES}">
+                <option value="${list.currencyCode}" <c:if test="${param.listCountryTo eq list.currencyCode}">selected</c:if>>
+                    ${list.name}
+                </option> 
+
+                <br/>        
+            </c:forEach>
+                <option value="VND"<c:if test="${param.txtFrom eq 'VND'}">selected</c:if>>
+                    VietNam dong
+                </option>
+        </select><br/>
+
+        Result:<input type="text" name="txtResult" value="${requestScope.EX}" /><br/>
         <input type="submit" value="Exchange" name="btAction" />
     </form>
 </html>
