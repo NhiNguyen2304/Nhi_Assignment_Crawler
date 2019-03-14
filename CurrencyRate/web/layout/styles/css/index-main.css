@@ -1,0 +1,161 @@
+/*CSS Grid*/
+* {
+    box-sizing: border-box;
+    color: #000;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+[class*="col-"] {
+    float: left;
+
+}
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    [class*="col-"] {
+        width: 100%;
+    }
+}
+
+/* Pre Header*/
+.logo{
+    background-position: center;
+    padding-top: 2%;
+}
+#pre-header {
+    background-color: #3a8bcd;
+    text-align: right;
+   padding-right: 2%;
+    height: 64px;
+    color: white;
+
+}
+#pre-header a {
+    color: white;
+}
+#pre-header-col{
+    margin-top: 28px;
+
+}
+span{
+    color: #fff;
+    font-size: 14px;
+}
+/*Navigator*/
+.navbar {
+    text-align: center;
+    width: 100%;
+    position: relative;
+    padding: 25px 0px;
+
+
+    display: inline-block;
+    padding-top: 32px;
+
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.navbar-brand {
+    display: inline-block;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.navbar-collapse {
+    
+   
+    padding-left: 30%;
+    padding-top: 8px;
+    padding-bottom: 12px;
+    border-style: ridge ;
+    border-top-color: #ccc;
+    border-bottom-color: #ccc;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    margin-top: 4%;
+    border-width: 1.5px;
+
+}
+
+
+
+
+/*Text*/
+a{
+    text-decoration: none;
+
+}
+
+li{
+    margin-right: 46px;
+}
+nav-link {
+    padding-right: .8rem;
+    padding-left: .5rem;
+}
+ul.navbar-nav {
+    list-style: none;
+    color: black;
+    text-align: center;
+}
+.navbar-nav{
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: all 0.5s;
+}
+
+
+/*Features Item*/
+.line-dec {
+    background-color: #3a8bcd;
+    width: 50px;
+    height: 15px;
+    margin-top: 4%;
+    margin-bottom: 1%;
+
+}
+.section-heading{
+   
+    padding-left: 4%;
+}
+.feature-product {
+    padding-left: 14%;
+    padding-top: 2%;
+}
+.featured-item {
+    margin-right: 6%;
+}
+
+.footer {
+   margin-top: 10%;
+    text-align: center;
+
+}
+.footer p{
+    color: grey;
+}
+.footer a{
+    color: grey;
+}
+

@@ -10,21 +10,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import nhi.data.MyConnection;
-import nhi.dto.GoldDTO;
 
 /**
  *
  * @author admin
  */
-public class GoldDAO implements Serializable {
-
+public class RegistrationDAO implements Serializable{
     private Connection conn;
     private PreparedStatement stm;
     private ResultSet rs;
+    private float com;
 
-    public GoldDAO() {
+    public RegistrationDAO() {
     }
 
+    
     private void closeConnection() {
         try {
             if (rs != null) {
@@ -36,26 +36,27 @@ public class GoldDAO implements Serializable {
             if (conn != null) {
                 conn.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            System.out.println(" " + ex);
+            //Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-     public boolean insertGold(GoldDTO dto) {
-        boolean check = false;
+   public String checkLogin(String username, String password) throws Exception {
+         String role = "failed";
         try {
-            String sql = "insert into Gold (district,typeOfGold,buying,selling,date) values (?,?,?,?,?)";
+            String sql = "select role from Registration where username = ? and password = ?";
             conn = MyConnection.getConnection();
             stm = conn.prepareStatement(sql);
-            stm.setString(1, dto.getDistrict());
-            stm.setString(2, dto.getTypeOfGold());
-            stm.setFloat(3, dto.getBuy());
-            stm.setFloat(4, dto.getSale());
-            stm.setString(5, dto.getDate());
-            check = stm.executeUpdate() > 0;
+            stm.setString(1, username);
+            stm.setString(2, password);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                role = rs.getString("role");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return check;
+        return role;
     }
+    
 }

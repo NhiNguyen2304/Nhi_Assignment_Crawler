@@ -22,9 +22,9 @@ public class CurrencyDTO implements Serializable{
     public CurrencyDTO() {
     }
 
-    public CurrencyDTO(String currencyCode, String name, float purchaseByCash, float purchaseByTransfer, float sale, String date) {
+    public CurrencyDTO(String currencyCode,  float purchaseByCash, float purchaseByTransfer, float sale, String date) {
         this.currencyCode = currencyCode;
-        this.name = name;
+      
         this.purchaseByCash = purchaseByCash;
         this.purchaseByTransfer = purchaseByTransfer;
         this.sale = sale;

@@ -7,32 +7,51 @@ package nhi.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author admin
  */
-public class CurrencyDTO implements Serializable{
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "currency", propOrder = {
+    "currencyCode",
+    "buying",
+    "purchaseByTransfer",
+    "sale",
+    "buyingRate",
+    "date"
+})
+public class CurrencyDTO implements Serializable {
+    @XmlElement(required = true)
     private String currencyCode;
-    private String name;
     private float buying;
     private float purchaseByTransfer;
     private float sale;
-    private  String date;
-    private int comparable;
-    
+    private int buyingRate;
+    private String date;
 
     public CurrencyDTO() {
     }
 
-    public CurrencyDTO(String currencyCode, String name, float buying, float purchaseByTransfer, float sale, String date) {
+    public CurrencyDTO(String currencyCode, float buying, float purchaseByTransfer, float sale, int buyingRate, String date) {
         this.currencyCode = currencyCode;
-        this.name = name;
         this.buying = buying;
         this.purchaseByTransfer = purchaseByTransfer;
         this.sale = sale;
+        this.buyingRate = buyingRate;
         this.date = date;
     }
+
+    
+    
+
+    
+    
 
     public String getCurrencyCode() {
         return currencyCode;
@@ -42,13 +61,6 @@ public class CurrencyDTO implements Serializable{
         this.currencyCode = currencyCode;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public float getBuying() {
         return buying;
@@ -57,8 +69,6 @@ public class CurrencyDTO implements Serializable{
     public void setBuying(float buying) {
         this.buying = buying;
     }
-
-   
 
     public float getPurchaseByTransfer() {
         return purchaseByTransfer;
@@ -84,18 +94,16 @@ public class CurrencyDTO implements Serializable{
         this.date = date;
     }
 
-    public float getComparable() {
-        return comparable;
+    public int getBuyingRate() {
+        return buyingRate;
     }
 
-    public void setComparable(int comparable) {
-        this.comparable = comparable;
+    public void setBuyingRate(int buyingRate) {
+        this.buyingRate = buyingRate;
     }
 
+   
+
     
-    
-    
-    
-    
-    
+
 }

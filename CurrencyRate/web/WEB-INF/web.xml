@@ -16,6 +16,18 @@
         <servlet-name>HighestRateServlet</servlet-name>
         <servlet-class>nhi.servlets.HighestRateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CrawlerServlet</servlet-name>
+        <servlet-class>nhi.servlets.CrawlerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>nhi.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CrawlerGoldServlet</servlet-name>
+        <servlet-class>nhi.servlets.CrawlerGoldServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/TestServlet</url-pattern>
@@ -32,12 +44,24 @@
         <servlet-name>HighestRateServlet</servlet-name>
         <url-pattern>/HighestRateServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrawlerServlet</servlet-name>
+        <url-pattern>/CrawlerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/LoginServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrawlerGoldServlet</servlet-name>
+        <url-pattern>/CrawlerGoldServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>MainServlet</welcome-file>
+        <welcome-file>home.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

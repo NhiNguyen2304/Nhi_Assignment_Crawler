@@ -7,31 +7,27 @@ package nhi.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import nhi.daos.CurrencyDAO;
-import nhi.dto.CurrencyDTO;
+import nhi.crawler.AppConstant;
+import nhi.crawler.WebGiaTableCrawler;
 
 /**
  *
  * @author admin
  */
-public class MainServlet extends HttpServlet {
+public class CrawlerServlet extends HttpServlet {
 
-    private final String indexPage = "index.jsp";
-    private final String testPage = "test.jsp";
+    private final String crawlerPage = "crawler.jsp";
     private final String error = "errorPage.jsp";
-    private final String testServlet = "TestServlet";
-    private final String exchangeServlet = "ExchangeServlet";
-    private final String highestRateServlet = "HighestRateServlet";
-    private final String loginServlet = "LoginServlet";
-    private final String crawlServlet = "CrawlerServlet";
-    private final String crawlGoldServlet = "CrawlerGoldServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,36 +43,46 @@ public class MainServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String url = error;
+        boolean check = false;
         try {
-            String button = request.getParameter("btAction");
-            CurrencyDAO dao = new CurrencyDAO();
-            ArrayList<CurrencyDTO> countries = new ArrayList<>();
-
-//            if (countries != null) {
-//                countries = dao.getCountries("04-03-2019");
-//                HttpSession session = request.getSession();
-//                session.setAttribute("COUNTRIES", countries);
-//                url = testPage;
-//            }
-
-            if (button == null) {
-
-            } else if (button.equals("Next")) {
-                url = testServlet;
-            } else if (button.equals("Exchange")) {
-                url = exchangeServlet;
-            } else if (button.equals("GetHighest")) {
-                url = highestRateServlet;
-            } else if (button.equals("Login")){
-                url = loginServlet;
-            } else if (button.equals("CrawlCurrency")){
-                url = crawlServlet;
-            } else if (button.equals("CrawlGold")){
-                url = crawlGoldServlet;
+            String resultSuccess = null;
+            String resultFailed = null;
+            HttpSession session = request.getSession();
+            
+            WebGiaTableCrawler webGia = new WebGiaTableCrawler();
+            String s = "2019-01-01";
+            LocalDate start = LocalDate.parse(s);
+            List<LocalDate> totalDates = new ArrayList<>();
+            while (!start.isAfter(LocalDate.now())) {
+                totalDates.add(start);
+                start = start.plusDays(1);
             }
+
            
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
+            LocalDate localDate = LocalDate.now();//For reference
+            for (LocalDate totalDate : totalDates) {
+                //System.out.println(" " + totalDate.format(formatter));
+
+                String parseTime = totalDate.format(formatter) + ".html";
+                check = webGia.getCurrency(AppConstant.urlWebgia + parseTime, totalDate.format(formatter));
+
+            }
+
+            if (check == true) {
+                resultSuccess = "Tạo dữ liệu ngoại tệ thành công";
+                session.setAttribute("CHECKS", resultSuccess);
+                url = crawlerPage;
+            } 
+            if (check == false)
+            {
+                resultFailed = "Có lỗi xảy ra. Vui lòng xem lại kết nối, hoặc website cần thu thập";
+                session.setAttribute("CHECKF", resultFailed);
+                url = crawlerPage;
+            }
+
         } finally {
-             RequestDispatcher rd = request.getRequestDispatcher(url);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
             out.close();
         }

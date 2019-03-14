@@ -7,31 +7,26 @@ package nhi.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import nhi.daos.CurrencyDAO;
-import nhi.dto.CurrencyDTO;
+import nhi.daos.RegistrationDAO;
+import nhi.dto.RegistrationDTO;
 
 /**
  *
  * @author admin
  */
-public class MainServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
-    private final String indexPage = "index.jsp";
-    private final String testPage = "test.jsp";
+    private final String adminPage = "crawler.jsp";
+    private final String userPage = "test.jsp";
     private final String error = "errorPage.jsp";
-    private final String testServlet = "TestServlet";
-    private final String exchangeServlet = "ExchangeServlet";
-    private final String highestRateServlet = "HighestRateServlet";
-    private final String loginServlet = "LoginServlet";
-    private final String crawlServlet = "CrawlerServlet";
-    private final String crawlGoldServlet = "CrawlerGoldServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,35 +43,28 @@ public class MainServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url = error;
         try {
-            String button = request.getParameter("btAction");
-            CurrencyDAO dao = new CurrencyDAO();
-            ArrayList<CurrencyDTO> countries = new ArrayList<>();
+            String username = request.getParameter("txtUsername");
+            String password = request.getParameter("txtPassword");
 
-//            if (countries != null) {
-//                countries = dao.getCountries("04-03-2019");
-//                HttpSession session = request.getSession();
-//                session.setAttribute("COUNTRIES", countries);
-//                url = testPage;
-//            }
+            RegistrationDTO dto = new RegistrationDTO();
 
-            if (button == null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("LOGINNAMESESSION", username);
 
-            } else if (button.equals("Next")) {
-                url = testServlet;
-            } else if (button.equals("Exchange")) {
-                url = exchangeServlet;
-            } else if (button.equals("GetHighest")) {
-                url = highestRateServlet;
-            } else if (button.equals("Login")){
-                url = loginServlet;
-            } else if (button.equals("CrawlCurrency")){
-                url = crawlServlet;
-            } else if (button.equals("CrawlGold")){
-                url = crawlGoldServlet;
+            RegistrationDAO dao = new RegistrationDAO();
+            String role = dao.checkLogin(username, password);
+            session.setAttribute("ROLE", role);
+            if (role.trim().equals("admin")) {
+                url = adminPage;
+            
+            } else {
+                url = userPage;
+                request.setAttribute("ERROR", "Your role does not existed");
             }
-           
+        } catch (Exception ex) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-             RequestDispatcher rd = request.getRequestDispatcher(url);
+            RequestDispatcher rd = request.getRequestDispatcher(url);
             rd.forward(request, response);
             out.close();
         }

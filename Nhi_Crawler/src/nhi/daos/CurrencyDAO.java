@@ -45,16 +45,15 @@ public class CurrencyDAO implements Serializable{
      public boolean insertCurrency(CurrencyDTO dto){
          boolean check = false;
          try {
-             String sql = "insert into Currency (currencyCode,name,buying,"
-                     + "purchaseByTransfer,selling,date) values (?,?,?,?,?,?)";
+             String sql = "insert into Currency (currencyCode,buying,"
+                     + "purchaseByTransfer,selling,date) values (?,?,?,?,?)";
              conn = MyConnection.getConnection();
              stm = conn.prepareStatement(sql);
              stm.setString(1, dto.getCurrencyCode());
-             stm.setString(2, dto.getName());
-             stm.setFloat(3, dto.getPurchaseByCash());
-             stm.setFloat(4, dto.getPurchaseByTransfer());
-             stm.setFloat(5, dto.getSale());
-             stm.setString(6, dto.getDate());
+             stm.setFloat(2, dto.getPurchaseByCash());
+             stm.setFloat(3, dto.getPurchaseByTransfer());
+             stm.setFloat(4, dto.getSale());
+             stm.setString(5, dto.getDate());
              check = stm.executeUpdate() > 0;
          } catch (Exception ex) {
              System.out.println(" " + ex);

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nhi.utils;
+package nhi.crawler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,6 +22,7 @@ import javax.xml.stream.events.XMLEvent;
 import nhi.daos.CurrencyDAO;
 import nhi.dto.CurrencyDTO;
 import nhi.state.TextUtils;
+import nhi.utils.NhiUtils;
 
 /**
  *
@@ -29,7 +30,8 @@ import nhi.state.TextUtils;
  */
 public class WebGiaTableCrawler extends BaseCrawler {
 
-    public void getCategories(String url, String date) {
+    public boolean getCurrency(String url, String date) {
+        boolean check = false;
        TextUtils checkWellformed = new TextUtils();
         String changingDoc = "";
         BufferedReader reader = null;
@@ -59,14 +61,13 @@ public class WebGiaTableCrawler extends BaseCrawler {
             if (!document.isEmpty()) {
                 String testDoc = document.substring(0, document.indexOf("</table>"));
                 changingDoc = checkWellformed.refineHtml(testDoc);
-            } else {
-                System.out.println("NULLLLL");
             }
-
             //System.out.println("Document " + changingDoc);
             if (!changingDoc.isEmpty()) {
 
-                sTAXPaeserForCurrency(changingDoc, date);
+                check = sTAXPaeserForCurrency(changingDoc, date);
+                
+                
             }
             //  return exchangerate;
         } catch (UnsupportedEncodingException ex) {
@@ -78,6 +79,7 @@ public class WebGiaTableCrawler extends BaseCrawler {
         } catch (XMLStreamException ex) {
             Logger.getLogger(WebGiaTableCrawler.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
+            //System.out.println("Finished");
             if (reader != null) {
                 try {
                     reader.close();
@@ -86,6 +88,7 @@ public class WebGiaTableCrawler extends BaseCrawler {
                 }
             }
         }
+        return check;
     }
 //    public void getCategories(String url, String date) {
 //        TextUtils checkWellformed = new TextUtils();
@@ -147,7 +150,8 @@ public class WebGiaTableCrawler extends BaseCrawler {
 //        // return null;
 //    }
 
-    public void sTAXPaeserForCurrency(String document, String date) throws UnsupportedEncodingException, XMLStreamException, IOException {
+    public boolean sTAXPaeserForCurrency(String document, String date) throws UnsupportedEncodingException, XMLStreamException, IOException {
+        boolean isFinished = false;
         document = document.trim();
         XMLEventReader eventReader = parseStringToEventReader(document);
         String id = "";
@@ -159,9 +163,9 @@ public class WebGiaTableCrawler extends BaseCrawler {
         boolean isPurchaseTransfer = false;
         boolean isSale = false;
         boolean isLast = false;
-        String buy = "";
-        String purchaseTransfer = "";
-        String sale = "";
+        float buy = 0;
+        float purchaseTransfer = 0;
+        float sale = 0;
         while (eventReader.hasNext()) {
 
             XMLEvent event = (XMLEvent) eventReader.next();
@@ -207,36 +211,31 @@ public class WebGiaTableCrawler extends BaseCrawler {
                         if (event.isCharacters()) {
                             Characters character = event.asCharacters();
                             if (isBuy == false && isPurchaseTransfer == false && isSale == false) {
-                                buy = formatCharater(character.toString());
-                                if (buy.equals("-")) {
-                                    dto.setPurchaseByCash(Float.parseFloat("0"));
-                                } else {
-                                    dto.setPurchaseByCash(Float.parseFloat(buy));
-                                }
+                                buy = NhiUtils.formatCharater(character.toString());
+                                
+                                    dto.setBuying(buy);
+                                
                                 // System.out.println("buy " + buy);
                                 isBuy = true;
                                 continue;
 
                             }
                             if (isBuy == true && isPurchaseTransfer == false && isSale == false) {
-                                purchaseTransfer = formatCharater(character.toString());
-                                if (purchaseTransfer.equals("-")) {
-                                    dto.setPurchaseByTransfer(Float.parseFloat("0"));
-                                } else {
-                                    dto.setPurchaseByTransfer(Float.parseFloat(purchaseTransfer));
-                                }
+                                purchaseTransfer = NhiUtils.formatCharater(character.toString());
+                              
+                                    dto.setPurchaseByTransfer(purchaseTransfer);
+                                
                                 //System.out.println("purchaseTransfer " + purchaseTransfer);
                                 isPurchaseTransfer = true;
                                 continue;
 
                             }
                             if (isBuy == true && isPurchaseTransfer == true && isSale == false) {
-                                sale = formatCharater(character.toString());
-                                if (sale.equals("-")) {
-                                    dto.setSale(Float.parseFloat("0"));
-                                } else {
-                                    dto.setSale(Float.parseFloat(sale));
-                                }
+                                sale = NhiUtils.formatCharater(character.toString());
+                                
+                                
+                                    dto.setSale(sale);
+                                
                                 //System.out.println("sale " + sale);
                                 isSale = true;
                                 isLast = true;
@@ -257,19 +256,17 @@ public class WebGiaTableCrawler extends BaseCrawler {
                 boolean check = false;
                 dto.setDate(date);
                 check = dao.insertCurrency(dto);
+                if (check){
+                    isFinished = true;
+                }
                 isLast = false;
             }
         }
 
-        // return test;
+         return isFinished;
     }
 
-    private String formatCharater(String character) {
-        //String parseComon = character.replace(",", "");
-        String parseDot = character.replace(".", "");
-        String parseComon = parseDot.replace(",", ".");
-        return parseComon;
-    }
+    
 
    
 
