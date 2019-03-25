@@ -49,7 +49,7 @@
                 <nav>
                     <ul>
                         <li><a href="home.jsp"><i class="icon-home"></i>Tiền tệ</a></li>
-                        <li><a href="gold.jsp"><i class="icon-user"></i>Giá vàng</a></li>
+                        <li><a href="LoadGoldRateServlet"><i class="icon-user"></i>Giá vàng</a></li>
                         <li><a href="home.jsp"><i class="icon-thumbs-up-alt"></i>Giúp đỡ</a></li>
 
                     </ul>

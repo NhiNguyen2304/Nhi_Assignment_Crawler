@@ -16,19 +16,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import nhi.crawler.AppConstant;
-import nhi.daos.CurrencyDAO;
-import nhi.dto.CurrencyRateDTOList;
+import nhi.daos.GoldDAO;
+import nhi.dto.GoldDTOList;
 import nhi.properties.NhiGetProperties;
-import nhi.utils.Currency;
-import nhi.utils.CurrencyExchange;
+import nhi.utils.Gold;
 import nhi.utils.NhiUtils;
 
 /**
  *
  * @author admin
  */
-public class LoadCurrencyRateServlet extends HttpServlet {
-    private final String targetPage = "home.jsp";
+public class LoadGoldRateServlet extends HttpServlet {
+  private final String targetPage = "gold.jsp";
     private final String errorPage = "error.jsp";
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,31 +42,35 @@ public class LoadCurrencyRateServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        String url = null;
+         String url = null;
         try {
-            CurrencyDAO dao = new CurrencyDAO();
-            Currency curr = new Currency();
-            NhiGetProperties prop = new NhiGetProperties();
             
-            //For today currency rate
+            Gold gold = new Gold();
+            GoldDAO goldDao = new GoldDAO();
+
             DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             LocalDate localDate = LocalDate.now();
-            CurrencyRateDTOList currencyRates = null;
-            currencyRates = dao.getCurrencyRateByDate(localDate.format(df), localDate.minusDays(1).format(df));
-             String xmlCurrencyRates = curr.marshalToString(currencyRates);
 
-             //For list of date
+            //For today gold rate
+            GoldDTOList goldRates = null;
+            goldRates = goldDao.getCurrencyRateByDate(localDate.format(df), localDate.minusDays(1).format(df));
+
+            //For period time
+            NhiGetProperties prop = new NhiGetProperties();
             int date = 0;
-
             date = Integer.parseInt(prop.getPropValue("periodToGetValue", AppConstant.srcTimerXML));
-            CurrencyRateDTOList currencyRatesList = null;
+            GoldDTOList goldList = null;
             ArrayList<String> listDate = new ArrayList<>();
             listDate = NhiUtils.getDate(date);
-            currencyRatesList = dao.getCurrencyRateByDateList(listDate);
-           
-            String xmlCurrencyRates30 = curr.marshalToString(currencyRatesList);
-            request.setAttribute("LISTRATE", xmlCurrencyRates);
-            request.setAttribute("RATE30", xmlCurrencyRates30);
+            goldList = goldDao.getGoldRateByDateList(listDate);
+
+            //String xmlCurrencies = marshalToString(currencies);
+            String xmlGoldRate = gold.marshalToString(goldRates);
+            String xmlGoldRateList = gold.marshalToString(goldList);
+
+            //sre.getServletRequest().setAttribute("LIST", xmlCurrencies);
+            request.setAttribute("LISTGOLDRATE", xmlGoldRate);
+            request.setAttribute("LISTPERIODGOLD", xmlGoldRateList);
             url = targetPage;
         } finally {
             RequestDispatcher rd = request.getRequestDispatcher(url);

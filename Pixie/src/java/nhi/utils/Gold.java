@@ -5,12 +5,12 @@
  */
 package nhi.utils;
 
-import nhi.dto.CurrencyRateDTOList;
+import nhi.dto.GoldDTOList;
 
 /**
  *
  * @author admin
  */
-public class Convert extends CurrencyExchange<CurrencyRateDTOList>{
+public class Gold extends CurrencyExchange<GoldDTOList>{
     
 }

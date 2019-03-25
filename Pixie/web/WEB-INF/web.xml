@@ -60,6 +60,10 @@
         <servlet-name>LoadCurrencyRateServlet</servlet-name>
         <servlet-class>nhi.servlets.LoadCurrencyRateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadGoldRateServlet</servlet-name>
+        <servlet-class>nhi.servlets.LoadGoldRateServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/TestServlet</url-pattern>
@@ -108,12 +112,16 @@
         <servlet-name>LoadCurrencyRateServlet</servlet-name>
         <url-pattern>/LoadCurrencyRateServlet</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadGoldRateServlet</servlet-name>
+        <url-pattern>/LoadGoldRateServlet</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>home.jsp</welcome-file>
+        <welcome-file>MainServlet</welcome-file>
     </welcome-file-list>
 </web-app>

@@ -35,6 +35,8 @@ public class MainServlet extends HttpServlet {
     private final String crawlCurTodayServlet = "CrawlCurrencyTodayServlet";
     private final String crawlGoldServlet = "CrawlGoldServlet";
     private final String crawlGoldTodayServlet = "CrawlGoldTodayServlet";
+    private final String loadCurrencyServlet = "LoadCurrencyRateServlet";
+    private final String loadGoldServlet = "LoadGoldRateServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,7 +65,8 @@ public class MainServlet extends HttpServlet {
 //                url = testPage;
 //            }
             if (button == null) {
-               
+               url = loadCurrencyServlet;
+             
             } else if (button.equals("Next")) {
                 url = testServlet;
             } else if (button.equals("Exchange")) {

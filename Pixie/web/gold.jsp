@@ -40,8 +40,8 @@
 
                 <nav>
                     <ul>
-                        <li><a href="home.jsp"><i class="icon-home"></i>Tiền tệ</a></li>
-                        <li><a href="gold.jsp"><i class="icon-user"></i>Giá vàng</a></li>
+                        <li><a href="LoadCurrencyRateServlet"><i class="icon-home"></i>Tiền tệ</a></li>
+                        <li><a href="LoadGoldRateServlet"><i class="icon-user"></i>Giá vàng</a></li>
                         <li><a href="home.jsp"><i class="icon-thumbs-up-alt"></i>Giúp đỡ</a></li>
 
                     </ul>
@@ -71,7 +71,7 @@
                         <x:transform doc="${listRate}" xslt="${xstl_rate}"/>
                     </c:if>
                     <c:if test="${empty listRate}">
-                        <h1>Không có cập nhật giá tiền tệ hôm nay</h1>
+                        <h1>Không có cập nhật vàng hôm nay</h1>
                     </c:if>
                 </div>
             </div>
