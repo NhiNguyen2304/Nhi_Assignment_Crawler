@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+   
+    <listener>
+        <description>RequestServletListener</description>
+        <listener-class>nhi.listener.RequestServletListener</listener-class>
+    </listener>
+    <listener>
+        <description>MyContextListener</description>
+        <listener-class>nhi.listener.MyContextListener</listener-class>
+    </listener>
+    <listener>
+        <description>RequestGoldServletListener</description>
+        <listener-class>nhi.listener.RequestGoldServletListener</listener-class>
+    </listener>
     <servlet>
         <servlet-name>TestServlet</servlet-name>
         <servlet-class>nhi.servlets.TestServlet</servlet-class>
@@ -17,16 +30,32 @@
         <servlet-class>nhi.servlets.HighestRateServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CrawlerServlet</servlet-name>
-        <servlet-class>nhi.servlets.CrawlerServlet</servlet-class>
+        <servlet-name>CrawlCurrencyServlet</servlet-name>
+        <servlet-class>nhi.servlets.CrawlCurrencyServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>nhi.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CrawlerGoldServlet</servlet-name>
-        <servlet-class>nhi.servlets.CrawlerGoldServlet</servlet-class>
+        <servlet-name>CrawlGoldServlet</servlet-name>
+        <servlet-class>nhi.servlets.CrawlGoldServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowRateServlet</servlet-name>
+        <servlet-class>nhi.servlets.ShowRateServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CrawlCurrencyTodayServlet</servlet-name>
+        <servlet-class>nhi.servlets.CrawlCurrencyTodayServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CrawlGoldTodayServlet</servlet-name>
+        <servlet-class>nhi.servlets.CrawlGoldTodayServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>nhi.servlets.LogoutServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
@@ -45,16 +74,32 @@
         <url-pattern>/HighestRateServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CrawlerServlet</servlet-name>
-        <url-pattern>/CrawlerServlet</url-pattern>
+        <servlet-name>CrawlCurrencyServlet</servlet-name>
+        <url-pattern>/CrawlCurrencyServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/LoginServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>CrawlerGoldServlet</servlet-name>
-        <url-pattern>/CrawlerGoldServlet</url-pattern>
+        <servlet-name>CrawlGoldServlet</servlet-name>
+        <url-pattern>/CrawlGoldServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowRateServlet</servlet-name>
+        <url-pattern>/ShowRateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrawlCurrencyTodayServlet</servlet-name>
+        <url-pattern>/CrawlCurrencyTodayServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CrawlGoldTodayServlet</servlet-name>
+        <url-pattern>/CrawlGoldTodayServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/LogoutServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

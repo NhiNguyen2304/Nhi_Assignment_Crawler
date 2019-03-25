@@ -6,16 +6,23 @@
 package nhi_crawler;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.xml.bind.JAXBContext;
 import nhi.daos.CurrencyDAO;
 import nhi.dto.CurrencyDTO;
 import nhi.utils.AppConstant;
 import nhi.utils.VietBaoCrawler;
 import nhi.threads.WebGiaThread;
+import nhi.properties.NhiGetProperties;
+import nhi.utils.PropertiesExamples;
 import nhi.utils.WebGiaTableCrawler;
 
 /**
@@ -28,33 +35,42 @@ public class Nhi_Crawler {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
+      
+      Timer timer = new Timer();
+       
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                 Date date = new Date();
+                System.out.println("TEST " + date);
+            }
+        },120000 , 3000);
 
-        ArrayList<String> listDate = new ArrayList<>();
-
-        String s = "2019-01-01";
-        LocalDate start = LocalDate.parse(s);
-        int count = 0;
-        List<LocalDate> totalDates = new ArrayList<>();
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate localDate = LocalDate.now();
-        while (!localDate.isBefore(start) && count <= 30) {
-            totalDates.add(localDate);
-            localDate = localDate.minusDays(1);
-            count++;
-            //start = start.plusDays(1);
-        }
-
-        for (int i = 0; i < totalDates.size(); i++) {
-            int temp1 = 1;
-            listDate.add(totalDates.get(i).format(df));
-//             System.out.println(listDate.get(i));
-        }
-        for (int i = 0; i < listDate.size(); i++) {
-            System.out.println(listDate.get(i));
-            
-        }
-        
-
+//        ArrayList<String> listDate = new ArrayList<>();
+//
+//        String s = "2019-01-01";
+//        LocalDate start = LocalDate.parse(s);
+//        int count = 0;
+//        List<LocalDate> totalDates = new ArrayList<>();
+//        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        LocalDate localDate = LocalDate.now();
+//        while (!localDate.isBefore(start) && count <= 30) {
+//            totalDates.add(localDate);
+//            localDate = localDate.minusDays(1);
+//            count++;
+//            //start = start.plusDays(1);
+//        }
+//
+//        for (int i = 0; i < totalDates.size(); i++) {
+//            int temp1 = 1;
+//            listDate.add(totalDates.get(i).format(df));
+////             System.out.println(listDate.get(i));
+//        }
+//        for (int i = 0; i < listDate.size(); i++) {
+//            System.out.println(listDate.get(i));
+//            
+//        }
+//        
 //        int count = 0;
 //        String s = "2019-01-01";
 //        LocalDate start = LocalDate.parse(s);
