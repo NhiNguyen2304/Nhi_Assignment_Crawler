@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="layout/styles/css/table-main.css">
         <link rel="stylesheet" href="layout/styles/css/styles.css">
         <script src="layout/styles/js/search_gold.js"></script>
-        
+
     </head>
     <body>
 
@@ -20,7 +20,7 @@
             <div id="pre-header-col" class="col-12">
                 <c:if test="${sessionScope.LOGINNAMESESSION != null}">
                     <p style="color: white;">Xin chào, ${sessionScope.LOGINNAMESESSION}</p> 
-                     <a href="LogoutServlet">Đăng xuất</a>
+                    <a href="LogoutServlet">Đăng xuất</a>
                 </c:if>
                 <c:if test="${sessionScope.LOGINNAMESESSION == null}">
                     <a href="loginPage.jsp">Đăng nhập</a> 
@@ -40,9 +40,9 @@
 
                 <nav>
                     <ul>
-                        <li><a href="LoadCurrencyRateServlet"><i class="icon-home"></i>Tiền tệ</a></li>
+                        <li><a href="MainServlet"><i class="icon-home"></i>Tiền tệ</a></li>
                         <li><a href="LoadGoldRateServlet"><i class="icon-user"></i>Giá vàng</a></li>
-                        <li><a href="home.jsp"><i class="icon-thumbs-up-alt"></i>Giúp đỡ</a></li>
+                        <li><a href="LoadCountriesServlet"><i class="icon-thumbs-up-alt"></i>Chuyển đổi tiền</a></li>
 
                     </ul>
                 </nav>
@@ -52,7 +52,7 @@
         </nav>
 
         <c:set var="listRate" value="${requestScope.LISTGOLDRATE}"/>
-        
+
 
         <!-- Featured Starts Here -->
 
@@ -78,7 +78,7 @@
 
 
         </div>
-       
+
 
         <!-- Featred Ends Here -->
         <!-- Featured Starts Here -->
@@ -101,7 +101,8 @@
                     </form>
                 </div>
                 <div class="col-12 feature-product">
-
+                    <p id = "checkValue" style="visibility: hidden;">Đơn vị: đồng</p><br/>
+                    <h1 id="checkSearch"></h1>
                     <table border="1" id="dataTable" style="visibility: hidden;">
 
                         <tr>
@@ -124,22 +125,22 @@
 
 
         </div>
-            <!-- Featred Ends Here -->
+        <!-- Featred Ends Here -->
 
-            <!-- Sub Footer Starts Here -->
-            <div class="col-12 footer">
+        <!-- Sub Footer Starts Here -->
+        <div class="col-12 footer">
 
 
-                <div class="copyright-text">
-                    <p>Copyright &copy; 2019 Company Name 
+            <div class="copyright-text">
+                <p>Copyright &copy; 2019 Company Name 
 
-                        - Design: <a rel="nofollow" href="https://www.facebook.com/NhiNguyen">NhiNguyen</a></p>
-                </div>
+                    - Design: <a rel="nofollow" href="https://www.facebook.com/NhiNguyen">NhiNguyen</a></p>
             </div>
+        </div>
 
 
 
-            <!-- Sub Footer Ends Here -->
+        <!-- Sub Footer Ends Here -->
 
 
     </body>

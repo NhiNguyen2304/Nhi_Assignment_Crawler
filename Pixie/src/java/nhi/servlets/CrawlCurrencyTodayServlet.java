@@ -60,6 +60,7 @@ public class CrawlCurrencyTodayServlet extends HttpServlet {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
             LocalDate localDate = LocalDate.now();//For reference
 
+            
             String parseTime = localDate.format(formatter) + ".html";
             String urlWebGia = prop.getPropValue("url.webgia", AppConstant.srcWebGiaXML);
             

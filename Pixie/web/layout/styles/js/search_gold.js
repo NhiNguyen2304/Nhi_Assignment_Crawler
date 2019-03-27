@@ -38,23 +38,18 @@ function searchNode(node, strSearch, tableName) {
 
         var tmp = node.firstChild.nodeValue;
         if (tmp.indexOf(strSearch, 0) > -1) {
-            // count++;
+            count++;
             //cells[0] = count;
             cells[0] = node.firstChild.nodeValue; //gold type
-         
+
             var siblingName = node.nextSibling;
             cells[1] = siblingName.firstChild.nodeValue;//sale
             var siblingSale = siblingName.nextSibling;
             cells[2] = siblingSale.firstChild.nodeValue;//transfer 
-
             var siblingTransfer = siblingSale.nextSibling;
             cells[3] = siblingTransfer.firstChild.nodeValue;//district                      
             var siblingDisTrict = siblingTransfer.nextSibling;
             cells[4] = siblingDisTrict.firstChild.nodeValue;//date
-            
-
-
-
 
             //cel[4] = siblingTransfer.lastChild.nodeValue;
 
@@ -84,13 +79,25 @@ function searchProcess(tableName, checked) {
             while (i < tableElem.rows.length) {
                 deleteRow(tableName, i);
             }
-            count = 0;
+
             searchNode(xmlDOM, myForm.txtCode.value, tableName);
         }
     }
-    table_visibility(tableName);
-    checked = true;
+    if (count > 0) {
+        check = true;
+        table_visibility(tableName);
+        var value = document.getElementById("checkValue");
+        value.style.visibility = 'visible';
+       
+        
+    }
+    if (count === 0){
+         document.getElementById("checkSearch").innerHTML = "Không thể tìm thấy nội dung tìm kiếm của bạn";
+        
+    }
+
 }
+
 function printNode(node, n) {
     if (node === null) {
         return;
@@ -107,6 +114,7 @@ function table_visibility(id) {
     else
         e.style.visibility = 'visible';
 }
+
 //function addRowJudge(tableID, key) {
 //    // Get a reference to the table
 //    let tableRef = document.getElementById(tableID);

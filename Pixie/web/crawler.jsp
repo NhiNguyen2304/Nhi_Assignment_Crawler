@@ -36,9 +36,9 @@
 
                 <nav>
                     <ul>
-                        <li><a href="home.jsp"><i class="icon-home"></i>Tiền tệ</a></li>
-                        <li><a href="gold.jsp"><i class="icon-user"></i>Giá vàng</a></li>
-                        <li><a href="home.jsp"><i class="icon-thumbs-up-alt"></i>Giúp đỡ</a></li>
+                         <li><a href="MainServlet"><i class="icon-home"></i>Tiền tệ</a></li>
+                        <li><a href="LoadGoldRateServlet"><i class="icon-user"></i>Giá vàng</a></li>
+                        <li><a href="exchange_suggest.jsp"><i class="icon-thumbs-up-alt"></i>Chuyển đổi tiền</a></li>
 
                     </ul>
                 </nav>

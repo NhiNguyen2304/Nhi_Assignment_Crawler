@@ -1,42 +1,42 @@
 
-    var regObj;
-    var xmlDOM = new ActiveXObject("Microsoft.XMLDOM");
-    var count = 0;
-    var cells = [];
-    var check = fasle;
-    function addRow(tableId, cells) {
-        var tableElem = document.getElementById(tableId);
-        var newRow = tableElem.insertRow(tableElem.rows.length);
-        var newCell;
-        for (var i = 0; i < cells.length; i++) {
-            newCell = newRow.insertCell(newRow.cells.length);
-            newCell.innerHTML = cells[i];
-
-        }
-        return newRow;
+var regObj;
+var xmlDOM = new ActiveXObject("Microsoft.XMLDOM");
+var count = 0;
+var cells = [];
+var check = fasle;
+function addRow(tableId, cells) {
+    var tableElem = document.getElementById(tableId);
+    var newRow = tableElem.insertRow(tableElem.rows.length);
+    var newCell;
+    for (var i = 0; i < cells.length; i++) {
+        newCell = newRow.insertCell(newRow.cells.length);
+        newCell.innerHTML = cells[i];
 
     }
-    function deleteRow(tableId, rowNumber) {
-        var tableElem = document.getElementById(tableId);
-        if (rowNumber > 0 && rowNumber < tableElem.rows.length) {
-            tableElem.deleteRow(rowNumber);
-        } else {
-            alert("Failed");
-        }
+    return newRow;
+
+}
+function deleteRow(tableId, rowNumber) {
+    var tableElem = document.getElementById(tableId);
+    if (rowNumber > 0 && rowNumber < tableElem.rows.length) {
+        tableElem.deleteRow(rowNumber);
+    } else {
+        alert("Failed");
     }
-    function searchNode(node, strSearch, tableName) {
-        if (node == null) {
-            return;
-        }
-
-       
-
-
-        if (node.tagName === "currencyCode") {
+}
+function searchNode(node, strSearch, tableName) {
+    if (node == null) {
+        return;
+    }
 
 
-            var tmp = node.firstChild.nodeValue;
-            if (tmp.indexOf(strSearch, 0) > -1) {
+
+
+    if (node.tagName === "currencyCode") {
+
+
+        var tmp = node.firstChild.nodeValue;
+        if (tmp.indexOf(strSearch, 0) > -1) {
 //                var xml = new ActiveXObject("Microsoft.XMLDOM")
 //                xml.async = false
 //                xml.load(regObj);
@@ -45,7 +45,7 @@
 //                xsl.async = false
 //                xsl.load("searchCurr.xsl")
 //                 document.write(xml.transformNode(xsl));
-
+            count++;
             cells[0] = node.firstChild.nodeValue; //currencyCode
             var siblingName = node.nextSibling;
             cells[1] = siblingName.firstChild.nodeValue;//name
@@ -57,58 +57,67 @@
             cells[4] = siblingSell.firstChild.nodeValue;
             var siblingDate = siblingSell.nextSibling;
             cells[5] = siblingDate.firstChild.nodeValue;
-
-
+            
             addRow(tableName, cells);
-            }
         }
-        var childs = node.childNodes;
-        for (var i = 0; i < childs.length; i++) {
-            searchNode(childs[i], strSearch, tableName);
-        }
+    }
+    var childs = node.childNodes;
+    for (var i = 0; i < childs.length; i++) {
+        searchNode(childs[i], strSearch, tableName);
+    }
+
+}
+function searchProcess(tableName, checked) {
+    if (!regObj) {
+        alert("NULL");
+        return false;
 
     }
-    function searchProcess(tableName, checked) {
-        if (!regObj) {
-            alert("NULL");
-            return false;
-
-        }
-        if (regObj) {
-            xmlDOM.async = false;
-            xmlDOM.loadXML(regObj);
-            if (xmlDOM.parseError.errorCode != 0) {
-                alert("Error: " + xmlDoc.parseError.reason);
-            } else {
-                var tableElem = document.getElementById(tableName);
-                var i = 1;
-                while (i < tableElem.rows.length) {
-                    deleteRow(tableName, i);
-                }
-                count = 0;
-                searchNode(xmlDOM, myForm.txtCode.value, tableName);
+    if (regObj) {
+        xmlDOM.async = false;
+        xmlDOM.loadXML(regObj);
+        if (xmlDOM.parseError.errorCode != 0) {
+            alert("Error: " + xmlDoc.parseError.reason);
+        } else {
+            var tableElem = document.getElementById(tableName);
+            var i = 1;
+            while (i < tableElem.rows.length) {
+                deleteRow(tableName, i);
             }
+            count = 0;
+            searchNode(xmlDOM, myForm.txtCode.value, tableName);
         }
+    }
 
+    if (count > 0) {
+        check = true;
         table_visibility(tableName);
-        checked = true;
+        var value = document.getElementById("checkValue");
+        value.style.visibility = 'visible';
+
+
     }
-    function printNode(node, n) {
-        if (node == null) {
-            return;
-        }
-        for (var i = 0; i < n; i++) {
-            document.write("-");
-        }
-        document.write("name: " + node.nodeName);
+    if (count === 0) {
+        document.getElementById("checkSearch").innerHTML = "Không thể tìm thấy nội dung tìm kiếm của bạn";
+
     }
-    function table_visibility(id) {
-        var e = document.getElementById(id);
-        if (check == false)
-            e.style.visibility = 'hidden';
-        else
-            e.style.visibility = 'visible';
+}
+function printNode(node, n) {
+    if (node == null) {
+        return;
     }
+    for (var i = 0; i < n; i++) {
+        document.write("-");
+    }
+    document.write("name: " + node.nodeName);
+}
+function table_visibility(id) {
+    var e = document.getElementById(id);
+    if (check === false)
+        e.style.visibility = 'hidden';
+    else
+        e.style.visibility = 'visible';
+}
 
 //function addRowJudge(tableID, key) {
 //    // Get a reference to the table

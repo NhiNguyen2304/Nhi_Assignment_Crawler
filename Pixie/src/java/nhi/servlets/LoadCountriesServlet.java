@@ -9,18 +9,26 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import nhi.daos.CurrencyDAO;
-import nhi.dto.CurrencyRateDTOList;
+import nhi.daos.TypeOfCurrencyDAO;
+import nhi.dto.CurrencyDTO;
+import nhi.dto.TypeOfCurrencyDTO;
 
 /**
  *
  * @author admin
  */
-public class ShowRateServlet extends HttpServlet {
+public class LoadCountriesServlet extends HttpServlet {
+    
+    private final String targetPage = "exchange_suggest.jsp";
+    private final String errorPage = "error.jsp";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,12 +43,22 @@ public class ShowRateServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        String url = null;
         try {
-      
-
-        } catch (Exception e) {
-            e.printStackTrace();
+            TypeOfCurrencyDAO dao = new TypeOfCurrencyDAO();
+            CurrencyDAO currDao = new CurrencyDAO();
+            ArrayList<TypeOfCurrencyDTO> countriesCode = new ArrayList<>();
+            ArrayList<TypeOfCurrencyDTO> countries = new ArrayList<>();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
+            LocalDate localDate = LocalDate.now();//For reference
+            countriesCode = currDao.getCountries(localDate.format(formatter));
+            countries = dao.getCountries(countriesCode);
+            HttpSession session = request.getSession();
+            session.setAttribute("COUNTRIES", countries);
+            url = targetPage;
         } finally {
+            RequestDispatcher rd = request.getRequestDispatcher(url);
+            rd.forward(request, response);
             out.close();
         }
     }

@@ -11,8 +11,6 @@ package nhi.crawler;
  */
 public class AppConstant {
     
-    public static final String urlWebgia = "https://webgia.com/ty-gia/vietcombank/";
-    public static final String urlVietBao = "http://vietbao.vn/vn/market/gia-vang/";
     public static final String srcWebGiaProp = "E:/Specialization/SP8/PRX/Project/Nhi_Assignment_Crawler/"
             + "Pixie/src/java/nhi/properties/webgia.properties";
     public static final String srcWebGiaXML = "E:/Specialization/SP8/PRX/Project/Nhi_Assignment_Crawler/"

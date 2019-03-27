@@ -19,7 +19,8 @@
         
         <html>
          
-            <body>               
+            <body>  
+                <p id="checkValue">Đơn vị: đồng</p><br/>             
                 <table border="2">
                     <tr>
                         <th>Mã</th>
@@ -91,6 +92,7 @@
                       
                     </xsl:for-each>
                 </table>
+               
             </body>
         </html>
     </xsl:template>

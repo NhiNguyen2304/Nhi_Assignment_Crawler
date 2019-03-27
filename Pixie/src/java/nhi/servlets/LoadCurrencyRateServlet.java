@@ -45,6 +45,7 @@ public class LoadCurrencyRateServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         String url = null;
         try {
+            
             CurrencyDAO dao = new CurrencyDAO();
             Currency curr = new Currency();
             NhiGetProperties prop = new NhiGetProperties();

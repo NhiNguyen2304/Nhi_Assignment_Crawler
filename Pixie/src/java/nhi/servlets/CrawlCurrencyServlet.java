@@ -49,6 +49,7 @@ public class CrawlCurrencyServlet extends HttpServlet {
         int typeServlet = 2; //type 1 is crawl Today type 2 is crawl all
         
         try {
+            
             String resultSuccess = null;
             String resultFailed = null;
             //HttpSession session = request.getSession();

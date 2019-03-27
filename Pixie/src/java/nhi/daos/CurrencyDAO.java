@@ -18,6 +18,7 @@ import nhi.dto.CurrencyDTO;
 import nhi.dto.CurrencyDTOList;
 import nhi.dto.CurrencyRateDTO;
 import nhi.dto.CurrencyRateDTOList;
+import nhi.dto.TypeOfCurrencyDTO;
 import nhi.utils.NhiUtils;
 
 /**
@@ -46,8 +47,8 @@ public class CurrencyDAO implements Serializable {
                 conn.close();
             }
         } catch (Exception ex) {
-            System.out.println(" " + ex);
-            //Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
+            //System.out.println(" " + ex);
+            Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -85,8 +86,8 @@ public class CurrencyDAO implements Serializable {
             check = stm.executeUpdate() > 0;
 
         } catch (Exception ex) {
-            System.out.println(" " + ex);
-            // Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
+            //System.out.println(" " + ex);
+             Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             closeConnection();
         }
@@ -374,6 +375,60 @@ public class CurrencyDAO implements Serializable {
         return list;
     }
 
+     public CurrencyRateDTOList getCurrencyRateByDateListAndID(ArrayList<String> listDate, String id) {
+        //List<CurrencyRate30DTOList> list = new ArrayList<CurrencyRate30DTOList>();
+        //List<CurrencyRate30DTOList> listTmp = new ArrayList<CurrencyRate30DTOList>();
+        CurrencyRateDTOList list = new CurrencyRateDTOList();
+        String currencyCode = null;
+        String name = null;
+        String date = null;
+        float buyingRate = 0;
+        float transferRate = 0;
+        float sellingRate = 0;
+        boolean checkEx = false;
+        String firstDate = "";
+        String secondDate = "";
+        int count = 1;
+        for (int i = 0; i < listDate.size(); i++) {
+
+            try {
+                String sql = "EXEC CurrencyStoreByID ?,?,?";
+                conn = MyConnection.getConnection();
+                stm = conn.prepareStatement(sql);
+                stm.setString(1, listDate.get(i));
+                int nextDate = i + 1;
+                if (nextDate == listDate.size()){
+                    break;
+                }
+                stm.setString(2, listDate.get(nextDate));
+                stm.setString(3, id);
+                rs = stm.executeQuery();
+                
+                //Currency2DTO dto = new Currency2DTO();
+                while (rs.next()) {
+                    currencyCode = rs.getString("currencyCode");
+                    name = rs.getString("currencyName");
+                    buyingRate = rs.getFloat("buyingRate");
+                    transferRate = rs.getFloat("transferRate");
+                    sellingRate = rs.getFloat("sellingRate");
+                    date = rs.getString("currDate");
+
+                    CurrencyRateDTO dto = new CurrencyRateDTO(currencyCode.trim(), name.trim(), (int) buyingRate, (int) transferRate, (int) sellingRate, date);
+                    list.getCurrencies().add(dto);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                closeConnection();
+            }
+          
+
+        }
+
+        return list;
+    }
+    
+    
     public CurrencyRateDTOList getCurrencyRateByDate(String currDate, String prevDate) {
         CurrencyRateDTOList list = new CurrencyRateDTOList();
         String currencyCode = null;
@@ -445,6 +500,30 @@ public class CurrencyDAO implements Serializable {
         return list;
 
     }
+     public ArrayList<TypeOfCurrencyDTO> getCountries(String date) {
+        ArrayList<TypeOfCurrencyDTO> countries = new ArrayList<>();
+        float temp = 0;
+        try {
+            String sql = "Select currencyCode, buying from Currency where date = ?";
+            conn = MyConnection.getConnection();
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, date);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                TypeOfCurrencyDTO dto = new TypeOfCurrencyDTO();
+                temp = rs.getFloat("buying");
+                if (temp > 0){
+                dto.setCode(rs.getString("currencyCode"));
+                }
+                countries.add(dto);
+            }
+
+        } catch (Exception e) {
+            Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return countries;
+    }
+    
 
 //      public CurrencyRateDTOList getAverageRate(String code) {
 //         CurrencyRateDTOList list = new CurrencyRateDTOList();

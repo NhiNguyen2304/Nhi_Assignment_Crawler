@@ -18,7 +18,8 @@
     <xsl:template match="/">
         
         <html>
-            <body>               
+            <body>
+                <p id="checkValue">Đơn vị: đồng</p><br/>           
                 <table border="2">
                     <tr>
                         <th>Loại</th>

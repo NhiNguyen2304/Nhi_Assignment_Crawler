@@ -48,6 +48,7 @@ public class VietBaoCrawler extends BaseCrawler {
         List<LocalDate> totalDates = new ArrayList<>();
         try {
             reader = getBufferReadFromURL(baseUrl);
+           
             String boxStart = prop.getPropValue("startTableUrl", AppConstant.srcVietBaoXML);
             String boxEnd = prop.getPropValue("endTableUrl", AppConstant.srcVietBaoXML);
             boolean isStart = false;

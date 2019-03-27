@@ -1,16 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <listener>
-        <description>RequestServletListener</description>
-        <listener-class>nhi.listener.RequestServletListener</listener-class>
-    </listener>
-    <listener>
         <description>MyContextListener</description>
         <listener-class>nhi.listener.MyContextListener</listener-class>
-    </listener>
-    <listener>
-        <description>RequestGoldServletListener</description>
-        <listener-class>nhi.listener.RequestGoldServletListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>TestServlet</servlet-name>
@@ -25,10 +17,6 @@
         <servlet-class>nhi.servlets.ExchangeServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HighestRateServlet</servlet-name>
-        <servlet-class>nhi.servlets.HighestRateServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>CrawlCurrencyServlet</servlet-name>
         <servlet-class>nhi.servlets.CrawlCurrencyServlet</servlet-class>
     </servlet>
@@ -39,10 +27,6 @@
     <servlet>
         <servlet-name>CrawlGoldServlet</servlet-name>
         <servlet-class>nhi.servlets.CrawlGoldServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ShowRateServlet</servlet-name>
-        <servlet-class>nhi.servlets.ShowRateServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CrawlCurrencyTodayServlet</servlet-name>
@@ -64,6 +48,10 @@
         <servlet-name>LoadGoldRateServlet</servlet-name>
         <servlet-class>nhi.servlets.LoadGoldRateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoadCountriesServlet</servlet-name>
+        <servlet-class>nhi.servlets.LoadCountriesServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>TestServlet</servlet-name>
         <url-pattern>/TestServlet</url-pattern>
@@ -77,10 +65,6 @@
         <url-pattern>/ExchangeServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>HighestRateServlet</servlet-name>
-        <url-pattern>/HighestRateServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>CrawlCurrencyServlet</servlet-name>
         <url-pattern>/CrawlCurrencyServlet</url-pattern>
     </servlet-mapping>
@@ -91,10 +75,6 @@
     <servlet-mapping>
         <servlet-name>CrawlGoldServlet</servlet-name>
         <url-pattern>/CrawlGoldServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ShowRateServlet</servlet-name>
-        <url-pattern>/ShowRateServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CrawlCurrencyTodayServlet</servlet-name>
@@ -115,6 +95,10 @@
     <servlet-mapping>
         <servlet-name>LoadGoldRateServlet</servlet-name>
         <url-pattern>/LoadGoldRateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadCountriesServlet</servlet-name>
+        <url-pattern>/LoadCountriesServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

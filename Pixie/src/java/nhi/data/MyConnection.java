@@ -8,6 +8,8 @@ package nhi.data;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +25,7 @@ public class MyConnection implements Serializable{
             con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=NhiDB", "sa", "123qwe");   
             
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(MyConnection.class.getName()).log(Level.SEVERE, null, e);
         }
         return con;
     }

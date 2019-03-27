@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nhi.data.MyConnection;
 
 /**
@@ -37,8 +39,8 @@ public class RegistrationDAO implements Serializable{
                 conn.close();
             }
         } catch (Exception ex) {
-            System.out.println(" " + ex);
-            //Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
+            //System.out.println(" " + ex);
+            Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
    public String checkLogin(String username, String password) throws Exception {
@@ -54,7 +56,7 @@ public class RegistrationDAO implements Serializable{
                 role = rs.getString("role");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+              Logger.getLogger(CurrencyDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return role;
     }

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 public class LogoutServlet extends HttpServlet {
 
-    private final String logout = "home.jsp";
+    private final String logout = "loginPage.jsp";
     private final String error = "errorPage.jsp";
 
     /**

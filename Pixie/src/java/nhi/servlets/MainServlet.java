@@ -25,11 +25,11 @@ import nhi.properties.NhiSaveProperties;
 public class MainServlet extends HttpServlet {
 
     private final String indexPage = "index.jsp";
-    private final String testPage = "test.jsp";
+   
     private final String error = "errorPage.jsp";
     private final String testServlet = "TestServlet";
     private final String exchangeServlet = "ExchangeServlet";
-    private final String highestRateServlet = "HighestRateServlet";
+   
     private final String loginServlet = "LoginServlet";
     private final String crawlCurrServlet = "CrawlCurrencyServlet";
     private final String crawlCurTodayServlet = "CrawlCurrencyTodayServlet";
@@ -37,6 +37,7 @@ public class MainServlet extends HttpServlet {
     private final String crawlGoldTodayServlet = "CrawlGoldTodayServlet";
     private final String loadCurrencyServlet = "LoadCurrencyRateServlet";
     private final String loadGoldServlet = "LoadGoldRateServlet";
+    private final String loadCountryServlet = "LoadCountriesServlet";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,15 +66,13 @@ public class MainServlet extends HttpServlet {
 //                url = testPage;
 //            }
             if (button == null) {
-               url = loadCurrencyServlet;
+             url = loadCurrencyServlet;
              
             } else if (button.equals("Next")) {
                 url = testServlet;
             } else if (button.equals("Exchange")) {
                 url = exchangeServlet;
-            } else if (button.equals("GetHighest")) {
-                url = highestRateServlet;
-            } else if (button.equals("Login")) {
+            }  else if (button.equals("Login")) {
                 url = loginServlet;
             } else if (button.equals("CrawlCurrency")) {
                 url = crawlCurrServlet;

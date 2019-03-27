@@ -11,13 +11,9 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.ServletContext;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
@@ -28,8 +24,6 @@ import javax.xml.stream.events.XMLEvent;
 import nhi.daos.CurrencyDAO;
 import nhi.dto.CurrencyDTO;
 import nhi.properties.NhiGetProperties;
-import nhi.properties.NhiSaveProperties;
-import nhi.properties.PropertiesExamples;
 import nhi.state.TextUtils;
 import nhi.utils.NhiUtils;
 
@@ -55,7 +49,7 @@ public class WebGiaTableCrawler extends BaseCrawler {
             String boxStart = prop.getPropValue("startBox", AppConstant.srcWebGiaXML);
             String boxEnd = prop.getPropValue("endBox", AppConstant.srcWebGiaXML);
             boolean isStart = false;
-            boolean isEnd = false;
+            
             while ((line = reader.readLine()) != null) {
 
                 if (line.contains(boxStart)) {
@@ -97,19 +91,19 @@ public class WebGiaTableCrawler extends BaseCrawler {
                         for (LocalDate totalDate : totalDates) {
                             //System.out.println(" " + totalDate.format(formatter));
 
-                            String parseTime = totalDate.format(formatter) + ".html";
-                            check = getCurrency(urlWebgia + parseTime, totalDate.format(formatter));
+                            String parseTime = totalDate.format(formatter) + prop.getPropValue("tailUrlForList",  AppConstant.srcWebGiaXML);
+                            check = getCurrencyUrl(urlWebgia + parseTime, totalDate.format(formatter));
 
                         }
                     }
                     if (type == 1) {
-                        check = getCurrency(urlWebgia, date);
+                        check = getCurrencyUrl(urlWebgia, date);
                     }
 
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+           Logger.getLogger(WebGiaTableCrawler.class.getName()).log(Level.SEVERE, null, e);
         } finally {
             //System.out.println("Finished");
             if (reader != null) {
@@ -151,7 +145,7 @@ public class WebGiaTableCrawler extends BaseCrawler {
         return urlWebGia;
     }
 
-    public boolean getCurrency(String url, String date) {
+    public boolean getCurrencyUrl(String url, String date) {
 
         //NhiSaveProperties savePro = new NhiSaveProperties();
         //savePro.saveProInXml(AppConstant.srcWebGiaProp, AppConstant.srcWebGiaXML);

@@ -48,9 +48,9 @@
 
                 <nav>
                     <ul>
-                        <li><a href="home.jsp"><i class="icon-home"></i>Tiền tệ</a></li>
+                        <li><a href="LoadCurrencyRateServlet"><i class="icon-home"></i>Tiền tệ</a></li>
                         <li><a href="LoadGoldRateServlet"><i class="icon-user"></i>Giá vàng</a></li>
-                        <li><a href="home.jsp"><i class="icon-thumbs-up-alt"></i>Giúp đỡ</a></li>
+                        <li><a href="LoadCountriesServlet"><i class="icon-thumbs-up-alt"></i>Chuyển đổi tiền</a></li>
 
                     </ul>
                 </nav>
@@ -59,9 +59,9 @@
 
 
         </nav>
-       
+
         <c:set var="listRate" value="${requestScope.LISTRATE}"/>
-       
+
 
         <!-- Featured Starts Here -->
 
@@ -89,8 +89,8 @@
         </div>
         <div class="featured-items col-12">
 
-            
-             <c:set var="listRate30" value="${requestScope.RATE30}"/>
+
+            <c:set var="listRate30" value="${requestScope.RATE30}"/>
             <script>
                 regObj = '${requestScope.RATE30}';
                 var check = fasle;
@@ -106,9 +106,11 @@
 
                     </form>
                 </div>
-               
+
                 <div class="col-12 feature-product">
 
+                      <p id = "checkValue" style="visibility: hidden;">Đơn vị: đồng</p>
+                    <h1 id="checkSearch"></h1>
                     <table border="1" id="dataTable" style="visibility: hidden;">
 
                         <tr>
@@ -126,12 +128,14 @@
 
 
                     </table>
+                    
                 </div>
 
             </div>
 
 
         </div>
+
 
 
         <!-- Featred Ends Here -->

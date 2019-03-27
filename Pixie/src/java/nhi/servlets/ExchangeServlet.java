@@ -11,11 +11,17 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import nhi.crawler.AppConstant;
 import nhi.daos.CurrencyDAO;
+import nhi.dto.CurrencyRateDTOList;
+import nhi.properties.NhiGetProperties;
+import nhi.utils.Currency;
+import nhi.utils.NhiUtils;
 
 /**
  *
@@ -23,7 +29,7 @@ import nhi.daos.CurrencyDAO;
  */
 public class ExchangeServlet extends HttpServlet {
 
-    private final String exchangePage = "test.jsp";
+    private final String exchangePage = "exchange_suggest.jsp";
     private final String error = "errorPage.jsp";
 
     /**
@@ -40,33 +46,84 @@ public class ExchangeServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String url = error;
+        boolean isError = false;
         try {
-            String from = request.getParameter("txtFrom");
-            String fromParsed = from.replace("0", "");
-            long fromParsedToLong = 0;
-            String item = request.getParameter("listCountryTo");
-            if (fromParsed != null){
-             fromParsedToLong = Long.parseLong(fromParsed);
-            }
-           
+             long fromParsedToLong = 0;
+            String itemTo = request.getParameter("listCountryTo").trim();
+            String itemFrom = request.getParameter("listCountryFrom").trim();
             long result = 0;
-            LocalDate localDate = LocalDate.now();//For reference
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
+            LocalDate localDate = LocalDate.now();//For reference
             //String to = request.getParameter("txtTo");
             CurrencyDAO dao = new CurrencyDAO();
-            if (fromParsedToLong != 0) {
-                if (item.equals(item)) {
-                    //float currencyEx = dao.getCurrency(item, localDate.format(formatter));
-                    float currencyEx = dao.getCurrency(item, "04-03-2019");
-                    result = (long) (fromParsedToLong * currencyEx);
-                    //String parsedResult = String.valueOf(result); 
-                    DecimalFormat fm = new DecimalFormat("#,000");
-                    request.setAttribute("EX", fm.format(result));
+            String from = null;
+            from = request.getParameter("txtFrom");
+            if (from.equals("")) {
+                isError = true;
+            }
+            // String fromParsed = from.replace("0", "");
+           
+            if (!from.equals("")) {
+                fromParsedToLong = Long.parseLong(from);
+            }
+            
+
+            if (!itemFrom.equals(itemTo) && isError == false) {
+                float currencyEx = dao.getCurrency(itemTo, localDate.format(formatter));
+                int date = 0;
+                NhiGetProperties prop = new NhiGetProperties();
+                Currency curr = new Currency();
+
+                date = Integer.parseInt(prop.getPropValue("periodToGetValue", AppConstant.srcTimerXML));
+                CurrencyRateDTOList currencyRatesList = null;
+                ArrayList<String> listDate = new ArrayList<>();
+                listDate = NhiUtils.getDate(date);
+                if (itemTo.equals("VND")) {
+                    currencyEx = dao.getCurrency(itemFrom, localDate.format(formatter));
+                    result = (long) (fromParsedToLong * (int) currencyEx);
+
+                    request.setAttribute("EX", result);
                     request.setAttribute("FROM", from);
                     //request.setAttribute("EX", result);
                     url = exchangePage;
                 }
+                if (!itemFrom.equals("VND") && !itemTo.equals("VND")) {
+                    //float currencyEx = dao.getCurrency(item, localDate.format(formatter));
 
+                    result = (long) (fromParsedToLong * (int) currencyEx);
+
+                    request.setAttribute("EX", result);
+                    request.setAttribute("FROM", from);
+                    //request.setAttribute("EX", result);
+                    url = exchangePage;
+                }
+                if (itemFrom.equals("VND")) {
+                    //String fromParsed = from.replace("0", "");
+                    float resultRate = 0;
+                    resultRate = (fromParsedToLong / currencyEx);
+                    //DecimalFormat fm = new DecimalFormat("#,000");
+                    request.setAttribute("EX", resultRate);
+                    request.setAttribute("FROM", from);
+                    url = exchangePage;
+                }
+                if (!itemTo.equals("VND")) {
+
+                    currencyRatesList = dao.getCurrencyRateByDateListAndID(listDate, itemTo);
+                    String xmlCurrencyRates30 = curr.marshalToString(currencyRatesList);
+                    request.setAttribute("RATE30", xmlCurrencyRates30);
+                    url = exchangePage;
+                }
+                if (itemTo.equals("VND")) {
+                    currencyRatesList = dao.getCurrencyRateByDateListAndID(listDate, itemFrom);
+                    String xmlCurrencyRates30 = curr.marshalToString(currencyRatesList);
+                    request.setAttribute("RATE30", xmlCurrencyRates30);
+                    url = exchangePage;
+                }
+
+            }
+            if (itemFrom.equals(itemTo) || isError == true) {
+                request.setAttribute("ERROR", "Không thể chuyển đổi hãy kiểm tra loại tiền tệ và số tiền phải lớn hơn 0");
+                url = exchangePage;
             }
 
         } finally {

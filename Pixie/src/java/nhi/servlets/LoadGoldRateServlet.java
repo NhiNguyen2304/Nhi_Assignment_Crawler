@@ -27,8 +27,10 @@ import nhi.utils.NhiUtils;
  * @author admin
  */
 public class LoadGoldRateServlet extends HttpServlet {
-  private final String targetPage = "gold.jsp";
+
+    private final String targetPage = "gold.jsp";
     private final String errorPage = "error.jsp";
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,9 +44,9 @@ public class LoadGoldRateServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-         String url = null;
+        String url = null;
         try {
-            
+
             Gold gold = new Gold();
             GoldDAO goldDao = new GoldDAO();
 
@@ -58,6 +60,7 @@ public class LoadGoldRateServlet extends HttpServlet {
             //For period time
             NhiGetProperties prop = new NhiGetProperties();
             int date = 0;
+            
             date = Integer.parseInt(prop.getPropValue("periodToGetValue", AppConstant.srcTimerXML));
             GoldDTOList goldList = null;
             ArrayList<String> listDate = new ArrayList<>();
