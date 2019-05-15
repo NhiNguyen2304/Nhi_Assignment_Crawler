@@ -55,7 +55,16 @@
 
 
         <!-- Featured Starts Here -->
-
+        <div class="featured-items col-12">
+            <div class="section-heading">
+                <div class="line-dec"></div>
+                <h2>CHÚ Ý</h2>
+                <p id="note">Số dương: giá giảm</p>
+                <p id="note">Số âm: giá tăng</p>
+                <p id="note">Số 0: giá bình ổn</p>
+                <p id="note">Đơn vị: đồng</p>
+            </div>
+        </div>
 
         <div class="featured-items col-12">
 
@@ -71,7 +80,7 @@
                         <x:transform doc="${listRate}" xslt="${xstl_rate}"/>
                     </c:if>
                     <c:if test="${empty listRate}">
-                        <h1>Không có cập nhật vàng hôm nay</h1>
+                        <h1>Không có cập nhật chênh lệch vàng hôm nay</h1>
                     </c:if>
                 </div>
             </div>
@@ -87,7 +96,7 @@
 
             <script>
                 regObj = '${requestScope.LISTPERIODGOLD}';
-                var check = fasle;
+               
             </script>
             <div class="section-heading">
                 <div class="line-dec"></div>
@@ -101,7 +110,7 @@
                     </form>
                 </div>
                 <div class="col-12 feature-product">
-                    <p id = "checkValue" style="visibility: hidden;">Đơn vị: đồng</p><br/>
+                    <p id = "checkValueGold"></p><br/>
                     <h1 id="checkSearch"></h1>
                     <table border="1" id="dataTable" style="visibility: hidden;">
 

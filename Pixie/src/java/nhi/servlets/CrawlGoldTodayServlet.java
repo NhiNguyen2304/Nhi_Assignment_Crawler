@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import nhi.crawler.VietBaoCrawler;
 import nhi.crawler.WebGiaTableCrawler;
 import nhi.properties.NhiGetProperties;
 import nhi.properties.NhiSaveProperties;
+import nhi.utils.NhiUtils;
 
 /**
  *
@@ -49,14 +51,17 @@ public class CrawlGoldTodayServlet extends HttpServlet {
             String resultSuccess = null;
             String resultFailed = null;
             //HttpSession session = request.getSession();
-            NhiGetProperties prop = new NhiGetProperties();
+//            NhiSaveProperties save = new NhiSaveProperties();
+//            save.saveProInXml(AppConstant.srcVietBaoProp, AppConstant.srcVietBaoXMLTest);
            VietBaoCrawler webVietBaoCraw = new VietBaoCrawler();
            
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
             LocalDate localDate = LocalDate.now();//For reference
 
             
-            String urlVietBao = prop.getPropValue("url.vietbao", AppConstant.srcVietBaoXML);
+            ServletContext context = this.getServletContext();
+            String urlVietBao = NhiUtils.getConfigProperties(context, AppConstant.srcVietBaoXML,
+                    "url.vietbao");
             check = webVietBaoCraw.getGoldFromURL(urlVietBao, localDate.format(formatter), typeServlet);
 
             if (check == true) {

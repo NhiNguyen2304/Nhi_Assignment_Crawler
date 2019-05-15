@@ -5,6 +5,8 @@
  */
 package nhi_crawler;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -37,23 +39,17 @@ public class Nhi_Crawler {
      */
     public static void main(String[] args) throws IOException {
         
-        long result = 6200000;
-        long pa1 = 12000;
-        float pa2 = 0;
-        pa2 = 16212;
-        DecimalFormat fm = new DecimalFormat("#.000");
         
-        System.out.println("Result " + fm.format(result));
       
-//      Timer timer = new Timer();
-//       
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                 Date date = new Date();
-//                System.out.println("TEST " + date);
-//            }
-//        },120000 , 3000);
+      Timer timer = new Timer();
+       
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                 Date date = new Date();
+                System.out.println("TEST " + date);
+            }
+        },12000 , 3000);
 
 //        ArrayList<String> listDate = new ArrayList<>();
 //

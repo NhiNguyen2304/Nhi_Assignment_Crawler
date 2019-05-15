@@ -34,12 +34,21 @@ body{
     }
 }
 /*Text*/
-#checkValue {
+#checkValueGold {
     float: right; 
     margin-right: 25%; 
     padding-top: 10%;
 }
-
+#checkValueUnit{
+     float: right; 
+    margin-right: 25%; 
+     padding-top: 10%;
+    
+}
+#note {
+    color: #002e5b;
+    
+}
 
 /* Pre Header*/
 

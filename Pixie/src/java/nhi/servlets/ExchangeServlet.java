@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -48,51 +49,57 @@ public class ExchangeServlet extends HttpServlet {
         String url = error;
         boolean isError = false;
         try {
-             long fromParsedToLong = 0;
+            // long fromParsedToLong = 0;
+            float fromParsedToFloat = 0;
             String itemTo = request.getParameter("listCountryTo").trim();
             String itemFrom = request.getParameter("listCountryFrom").trim();
-            long result = 0;
+            double result = 0;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
             LocalDate localDate = LocalDate.now();//For reference
             //String to = request.getParameter("txtTo");
             CurrencyDAO dao = new CurrencyDAO();
             String from = null;
             from = request.getParameter("txtFrom");
+            int checkForDot = from.indexOf(".");
             if (from.equals("")) {
                 isError = true;
             }
-            // String fromParsed = from.replace("0", "");
-           
-            if (!from.equals("")) {
-                fromParsedToLong = Long.parseLong(from);
-            }
-            
+         
 
+            if (!from.equals("")) {
+                fromParsedToFloat = Float.parseFloat(from);
+            }
+//           
             if (!itemFrom.equals(itemTo) && isError == false) {
                 float currencyEx = dao.getCurrency(itemTo, localDate.format(formatter));
+                float currencyTmp = 0;
                 int date = 0;
                 NhiGetProperties prop = new NhiGetProperties();
                 Currency curr = new Currency();
+                ServletContext context = this.getServletContext();
 
-                date = Integer.parseInt(prop.getPropValue("periodToGetValue", AppConstant.srcTimerXML));
+                date = Integer.parseInt(NhiUtils.getConfigProperties(context, AppConstant.srcTimerXML,
+                        "periodToGetValue"));
                 CurrencyRateDTOList currencyRatesList = null;
                 ArrayList<String> listDate = new ArrayList<>();
-                listDate = NhiUtils.getDate(date);
+                listDate = NhiUtils.getDate(date, context);
+               
+                
                 if (itemTo.equals("VND")) {
                     currencyEx = dao.getCurrency(itemFrom, localDate.format(formatter));
-                    result = (long) (fromParsedToLong * (int) currencyEx);
-
-                    request.setAttribute("EX", result);
+                    result = (double) (fromParsedToFloat * (int) currencyEx);
+                    long resultExchange = Double.valueOf(result).longValue();
+                    request.setAttribute("EX", resultExchange);
                     request.setAttribute("FROM", from);
                     //request.setAttribute("EX", result);
                     url = exchangePage;
                 }
                 if (!itemFrom.equals("VND") && !itemTo.equals("VND")) {
                     //float currencyEx = dao.getCurrency(item, localDate.format(formatter));
-
-                    result = (long) (fromParsedToLong * (int) currencyEx);
-
-                    request.setAttribute("EX", result);
+                    currencyTmp = dao.getCurrency(itemFrom, localDate.format(formatter));
+                    result = (double) ((fromParsedToFloat * (int) currencyTmp)/currencyEx);
+                    long resultExchange = Double.valueOf(result).longValue();
+                    request.setAttribute("EX", resultExchange);
                     request.setAttribute("FROM", from);
                     //request.setAttribute("EX", result);
                     url = exchangePage;
@@ -100,7 +107,7 @@ public class ExchangeServlet extends HttpServlet {
                 if (itemFrom.equals("VND")) {
                     //String fromParsed = from.replace("0", "");
                     float resultRate = 0;
-                    resultRate = (fromParsedToLong / currencyEx);
+                    resultRate = (fromParsedToFloat / currencyEx);
                     //DecimalFormat fm = new DecimalFormat("#,000");
                     request.setAttribute("EX", resultRate);
                     request.setAttribute("FROM", from);

@@ -82,7 +82,7 @@
 
                                 <br/>        
                             </c:forEach>
-                                <option>VND</option>
+                               
 
                         </select><br/>
                         Từ: <input type="text" name="txtFrom" value="${requestScope.FROM}" required=""/><br/>
@@ -95,7 +95,7 @@
                                 
                                 <br/>        
                             </c:forEach>
-                                <option>VND</option>
+                                
                         </select><br/>
                          Sang:  <input type="text" name="txtResult" value="${requestScope.EX}" /><br/>
                             <button type="submit" value="Exchange" name="btAction">Chuyển đổi</button><br/>
@@ -132,7 +132,7 @@
                     <x:transform doc="${listRate30}" xslt="${xstl_rate_ex}"/>
                 </c:if>
                 <c:if test="${empty listRate30}">
-                    <h1>Không có cập nhật tỉ lệ tiền tệ</h1>
+                    <h1>Không có cập nhật chênh lệch tiền tệ hôm nay</h1>
                 </c:if>
             </div>
             </div>

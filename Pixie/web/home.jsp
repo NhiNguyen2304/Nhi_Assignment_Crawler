@@ -65,7 +65,16 @@
 
         <!-- Featured Starts Here -->
 
-
+        <div class="featured-items col-12">
+            <div class="section-heading">
+                <div class="line-dec"></div>
+                <h2>CHÚ Ý</h2>
+                <p id="note">Số dương: giá giảm</p>
+                <p id="note">Số âm: giá tăng</p>
+                <p id="note">Số 0: giá bình ổn</p>
+                <p id="note">Đơn vị: đồng</p>
+            </div>
+        </div>
         <div class="featured-items col-12">
 
 
@@ -80,7 +89,7 @@
                         <x:transform doc="${listRate}" xslt="${xstl_rate}"/>
                     </c:if>
                     <c:if test="${empty listRate}">
-                        <h1>Không có cập nhật giá tiền tệ hôm nay</h1>
+                        <h1>Không có cập nhật chênh lệch tiền tệ hôm nay</h1>
                     </c:if>
                 </div>
             </div>
@@ -93,7 +102,7 @@
             <c:set var="listRate30" value="${requestScope.RATE30}"/>
             <script>
                 regObj = '${requestScope.RATE30}';
-                var check = fasle;
+             
             </script>
             <div class="section-heading">
                 <div class="line-dec"></div>
@@ -102,14 +111,14 @@
                     <form name="myForm">
                         Tên tiền tệ <input type="text" name="txtCode" value="" /><br/>
                         <button type="button"
-                                onclick="return searchProcess('dataTable', check);">Tìm kiếm</button>
+                                onclick="return searchProcess('dataTable');">Tìm kiếm</button>
 
                     </form>
                 </div>
 
                 <div class="col-12 feature-product">
 
-                      <p id = "checkValue" style="visibility: hidden;">Đơn vị: đồng</p>
+                      <p id = "checkValueUnit"></p>
                     <h1 id="checkSearch"></h1>
                     <table border="1" id="dataTable" style="visibility: hidden;">
 

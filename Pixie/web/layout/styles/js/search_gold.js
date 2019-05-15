@@ -3,7 +3,7 @@ var regObj;
 var xmlDOM = new ActiveXObject("Microsoft.XMLDOM");
 var count = 0;
 var cells = [];
-var check = fasle;
+var check = 0;
 function addRow(tableId, cells) {
     var tableElem = document.getElementById(tableId);
     var newRow = tableElem.insertRow(tableElem.rows.length);
@@ -63,6 +63,7 @@ function searchNode(node, strSearch, tableName) {
 
 }
 function searchProcess(tableName, checked) {
+    count = 0;
     if (!regObj) {
         alert("NULL");
         return false;
@@ -84,16 +85,19 @@ function searchProcess(tableName, checked) {
         }
     }
     if (count > 0) {
-        check = true;
-        table_visibility(tableName);
-        var value = document.getElementById("checkValue");
-        value.style.visibility = 'visible';
+        
+        table_visibility(tableName,1);
+        document.getElementById("checkSearch").innerHTML = "";
+        document.getElementById("checkValueGold").innerHTML = "Đơn vị: đồng";
+        
        
         
     }
     if (count === 0){
+      
+         table_visibility(tableName,0);
          document.getElementById("checkSearch").innerHTML = "Không thể tìm thấy nội dung tìm kiếm của bạn";
-        
+         document.getElementById("checkValueGold").innerHTML = "";
     }
 
 }
@@ -107,12 +111,15 @@ function printNode(node, n) {
     }
     document.write("name: " + node.nodeName);
 }
-function table_visibility(id) {
+function table_visibility(id, checker) {
     var e = document.getElementById(id);
-    if (check === false)
-        e.style.visibility = 'hidden';
-    else
+    if (checker === 0){
+         e.style.visibility = 'hidden';
+    }
+       
+    if (checker === 1){
         e.style.visibility = 'visible';
+    }
 }
 
 //function addRowJudge(tableID, key) {

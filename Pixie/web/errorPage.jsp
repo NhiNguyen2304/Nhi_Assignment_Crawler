@@ -10,11 +10,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Lỗi</title>
     </head>
     <body>
-        <h1>Error Page</h1>
-        <h2><font color="red">${requestScope.CHECK}</font></h2>
-        <p><a href="crawler.jsp">Vui lòng kiểm tra trước khi thử lại.</a></p>
+        <h1>Có lỗi xảy ra</h1>
+        <h2><font color="red">${requestScope.ERROR}</font></h2>
+        <p><a href="loginPage.jsp">Tài khoản hoặc mật khẩu không đúng vui lòng thử lại.</a></p>
     </body>
 </html>

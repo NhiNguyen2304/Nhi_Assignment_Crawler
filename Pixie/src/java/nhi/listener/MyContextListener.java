@@ -21,6 +21,7 @@ import nhi.crawler.VietBaoCrawler;
 import nhi.crawler.AppConstant;
 import nhi.crawler.CrawlerMaster;
 import nhi.servlets.CrawlCurrencyTodayServlet;
+import nhi.utils.NhiUtils;
 import org.apache.catalina.valves.CrawlerSessionManagerValve;
 
 /**
@@ -28,32 +29,34 @@ import org.apache.catalina.valves.CrawlerSessionManagerValve;
  *
  * @author admin
  */
-@WebListener()
-public class MyContextListener implements ServletContextListener {
-
-    @Override
-    public void contextInitialized(ServletContextEvent sce) {
-        try {
-            System.out.println("Listener Crawl Innitialize");
-            
-            NhiGetProperties prop = new NhiGetProperties();
-            String temp = prop.getPropValue("startTime", AppConstant.srcTimerXML);
-            String tempPeriod = prop.getPropValue("period", AppConstant.srcTimerXML);
-            CrawlerMaster crawler = new CrawlerMaster();
-            
-            Timer timer = new Timer();
-            int typeServlet = 1;
-            timer.schedule(crawler, Integer.parseInt(tempPeriod), Integer.parseInt(temp)); //Time to start, repeat in 1 day
-
-        } catch (Exception e) {
-           // e.printStackTrace();
-        }
-
-        
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent sce) {
-        System.out.println("Crawler Listener has been shutdown");
-    }
-}
+//@WebListener()
+//public class MyContextListener implements ServletContextListener {
+//
+//    @Override
+//    public void contextInitialized(ServletContextEvent sce) {
+//        try {
+//            System.out.println("Listener Crawl Innitialize");
+//            
+//            
+//            String temp = NhiUtils.getConfigProperties(sce.getServletContext(), AppConstant.srcTimerXML,
+//                                            "startTime");
+//            String tempPeriod = NhiUtils.getConfigProperties(sce.getServletContext(), AppConstant.srcTimerXML,
+//                                            "period");
+//            CrawlerMaster crawler = new CrawlerMaster();
+//            
+//            Timer timer = new Timer();
+//            int typeServlet = 1;
+//            timer.schedule(crawler, Integer.parseInt(tempPeriod), Integer.parseInt(temp)); //Time to start, repeat in 1 day
+//
+//        } catch (Exception e) {
+//           // e.printStackTrace();
+//        }
+//
+//        
+//    }
+//
+//    @Override
+//    public void contextDestroyed(ServletContextEvent sce) {
+//        System.out.println("Crawler Listener has been shutdown");
+//    }
+//}

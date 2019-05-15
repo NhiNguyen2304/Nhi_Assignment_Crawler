@@ -25,7 +25,7 @@ import nhi.dto.RegistrationDTO;
 public class LoginServlet extends HttpServlet {
 
     private final String adminPage = "crawler.jsp";
-    private final String userPage = "test.jsp";
+    private final String userPage = "errorPage.jsp";
     private final String error = "errorPage.jsp";
 
     /**

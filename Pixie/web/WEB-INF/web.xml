@@ -5,10 +5,6 @@
         <listener-class>nhi.listener.MyContextListener</listener-class>
     </listener>
     <servlet>
-        <servlet-name>TestServlet</servlet-name>
-        <servlet-class>nhi.servlets.TestServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>nhi.servlets.MainServlet</servlet-class>
     </servlet>
@@ -52,10 +48,6 @@
         <servlet-name>LoadCountriesServlet</servlet-name>
         <servlet-class>nhi.servlets.LoadCountriesServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>TestServlet</servlet-name>
-        <url-pattern>/TestServlet</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
         <url-pattern>/MainServlet</url-pattern>

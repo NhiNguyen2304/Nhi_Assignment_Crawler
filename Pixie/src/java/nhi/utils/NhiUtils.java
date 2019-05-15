@@ -5,11 +5,20 @@
  */
 package nhi.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import nhi.crawler.AppConstant;
 import nhi.properties.NhiGetProperties;
 
@@ -27,7 +36,7 @@ public class NhiUtils implements Serializable {
         float result = 0;
         
         float zero = 0;
-         if (character.equals("-")) {
+         if (character.equals("0.00")) {
              return 0;
          }
         dotPosition = character.indexOf(".");
@@ -60,14 +69,7 @@ public class NhiUtils implements Serializable {
         return parseComon;
     }
 
-    public static String formatDate(String date) {
-         NhiGetProperties pro = new NhiGetProperties();
-        String redundancy = pro.getPropValue("formatUrlEle", AppConstant.srcVietBaoXML);
-        
-        String result = date.replace(redundancy, "").trim();
-        return result;
-    }
-
+   
     public static String formatForPrint(float num1) {
         String result = null;
         result = String.valueOf(num1);
@@ -84,10 +86,11 @@ public class NhiUtils implements Serializable {
 
     }
     
-    public static ArrayList<String> getDate(int listSize) {
+    public static ArrayList<String> getDate(int listSize,ServletContext context) {
         ArrayList<String> listDate = new ArrayList<>();
         NhiGetProperties pro = new NhiGetProperties();
-        String s = pro.getPropValue("startDate", AppConstant.srcTimerXML);
+        String s = getConfigProperties(context, AppConstant.srcTimerXML,
+                                            "startDate");
         LocalDate start = LocalDate.parse(s);
         int count = 0;
         List<LocalDate> totalDates = new ArrayList<>();
@@ -107,6 +110,32 @@ public class NhiUtils implements Serializable {
         return listDate;
 
     }
+    public static String getConfigProperties(ServletContext context, String nameXml, String name){
+        InputStream is = null;
+        
+        try {
+            is =  context.getResourceAsStream("/WEB-INF/properties/" + nameXml);
+            
+            
+            
+            Properties prop = new Properties();
+            prop.loadFromXML(is);
+            return prop.getProperty(name);
+        } catch (FileNotFoundException ex) {
+             Logger.getLogger(NhiUtils.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(NhiUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    Logger.getLogger(NhiUtils.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+        }
+        return null;
+    } 
 
    
 

@@ -57,7 +57,6 @@ function searchNode(node, strSearch, tableName) {
             cells[4] = siblingSell.firstChild.nodeValue;
             var siblingDate = siblingSell.nextSibling;
             cells[5] = siblingDate.firstChild.nodeValue;
-            
             addRow(tableName, cells);
         }
     }
@@ -90,15 +89,16 @@ function searchProcess(tableName, checked) {
     }
 
     if (count > 0) {
-        check = true;
-        table_visibility(tableName);
-        var value = document.getElementById("checkValue");
-        value.style.visibility = 'visible';
 
 
+        table_visibility(tableName, 1);
+        document.getElementById("checkValueUnit").innerHTML = "Đơn vị: đồng";
+        document.getElementById("checkSearch").innerHTML = "";      
     }
     if (count === 0) {
+        table_visibility(tableName, 0);
         document.getElementById("checkSearch").innerHTML = "Không thể tìm thấy nội dung tìm kiếm của bạn";
+        document.getElementById("checkValueUnit").innerHTML = "";
 
     }
 }
@@ -111,12 +111,18 @@ function printNode(node, n) {
     }
     document.write("name: " + node.nodeName);
 }
-function table_visibility(id) {
+function table_visibility(id, checker) {
     var e = document.getElementById(id);
-    if (check === false)
+
+    if (checker === 0) {
         e.style.visibility = 'hidden';
-    else
+
+    }
+    if (checker === 1) {
+
         e.style.visibility = 'visible';
+
+    }
 }
 
 //function addRowJudge(tableID, key) {

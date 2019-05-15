@@ -17,9 +17,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import nhi.crawler.AppConstant;
+import nhi.crawler.NganHangCrawler;
 import nhi.crawler.WebGiaTableCrawler;
 import nhi.properties.NhiGetProperties;
 import nhi.properties.NhiSaveProperties;
+import nhi.utils.NhiUtils;
 
 /**
  *
@@ -47,24 +49,24 @@ public class CrawlCurrencyTodayServlet extends HttpServlet {
         boolean check = false;
          int typeServlet = 1; //type 1 is crawl Today type 2 is crawl all
         try {
-            NhiGetProperties prop = new NhiGetProperties();
-            
-           
+          
             String resultSuccess = null;
             String resultFailed = null;
             //HttpSession session = request.getSession();
             
-            WebGiaTableCrawler webGia = new WebGiaTableCrawler();
+            NganHangCrawler nganHangCrawler = new NganHangCrawler();
             
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
             LocalDate localDate = LocalDate.now();//For reference
 
             
-            String parseTime = localDate.format(formatter) + ".html";
-            String urlWebGia = prop.getPropValue("url.webgia", AppConstant.srcWebGiaXML);
+           
+           ServletContext context = this.getServletContext();
+            String urlNganHang =  NhiUtils.getConfigProperties(context, AppConstant.srcTyGiaXML,
+                                            "url.nganhang");
             
-            check = webGia.getCurrencyFromURL(urlWebGia, localDate.format(formatter), typeServlet);
+            check = nganHangCrawler.getCurrencyFromURL(urlNganHang, localDate.format(formatter));
 
             if (check == true) {
                 resultSuccess = "Tạo dữ liệu ngoại tệ thành công";

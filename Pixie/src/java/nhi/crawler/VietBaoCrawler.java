@@ -49,8 +49,10 @@ public class VietBaoCrawler extends BaseCrawler {
         try {
             reader = getBufferReadFromURL(baseUrl);
            
-            String boxStart = prop.getPropValue("startTableUrl", AppConstant.srcVietBaoXML);
-            String boxEnd = prop.getPropValue("endTableUrl", AppConstant.srcVietBaoXML);
+            String boxStart = getConfigProperties("startTableUrl", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+            String boxEnd = getConfigProperties("endTableUrl", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
             boolean isStart = false;
             boolean isEnd = false;
             while ((line = reader.readLine()) != null) {
@@ -79,7 +81,9 @@ public class VietBaoCrawler extends BaseCrawler {
             if (!wellFormedDoc.isEmpty()) {
                 urlVietBao = getURL(wellFormedDoc, date);
                 if (type == 2) {
-                     String s = prop.getPropValue("startDate", AppConstant.srcWebGiaXML);
+                  
+                     String s =  getConfigProperties("startDate", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
                     LocalDate start = LocalDate.parse(s);
 
                     while (!start.isAfter(LocalDate.now())) {
@@ -89,7 +93,9 @@ public class VietBaoCrawler extends BaseCrawler {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //for format Date from yyyy-mm-dd to dd-mm-yyyy
                     LocalDate localDate = LocalDate.now();//For reference
                     // String urlWebGia = prop.getPropValue("url.webgia", AppConstant.srcWebGiaXML);
-                    String elementFormat = prop.getPropValue("formatUrlEle", AppConstant.srcVietBaoXML);
+                    
+                    String elementFormat = getConfigProperties("formatUrlEle", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
                     for (LocalDate totalDate : totalDates) {
                         //System.out.println(" " + totalDate.format(formatter));
 
@@ -122,8 +128,10 @@ public class VietBaoCrawler extends BaseCrawler {
         String urlVietbao = null;
         XMLEventReader eventReader = parseStringToEventReader(document);
         NhiGetProperties prop = new NhiGetProperties();
-        String aTag = prop.getPropValue("a", AppConstant.srcVietBaoXML);
-        String nameAtt = prop.getPropValue("nameAttr", AppConstant.srcVietBaoXML);
+        String aTag = getConfigProperties("a", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String nameAtt = getConfigProperties("nameAttr", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
         try {
             while (eventReader.hasNext()) {
                 XMLEvent event = (XMLEvent) eventReader.next();
@@ -148,7 +156,7 @@ public class VietBaoCrawler extends BaseCrawler {
 
     public boolean getGold(String url, String date) {
 
-        NhiGetProperties prop = new NhiGetProperties();
+       
         boolean check = false;
         TextUtils checkWellformed = new TextUtils();
         String wellFormedDoc = "";
@@ -159,8 +167,10 @@ public class VietBaoCrawler extends BaseCrawler {
             String line = "";
             String document = "";
             boolean isStart = false;
-            String start = prop.getPropValue("start", AppConstant.srcVietBaoXML);
-            String end = prop.getPropValue("end", AppConstant.srcVietBaoXML);
+            String start = getConfigProperties("start", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+            String end = getConfigProperties("end", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
 
             while ((line = reader.readLine()) != null) {
 
@@ -228,14 +238,24 @@ public class VietBaoCrawler extends BaseCrawler {
         String typeOfGold = "";
         String goldPrice = "";
         NhiGetProperties prop = new NhiGetProperties();
-        String divTag = prop.getPropValue("div", AppConstant.srcVietBaoXML);
-        String tdTag = prop.getPropValue("td", AppConstant.srcVietBaoXML);
-        String strongTag = prop.getPropValue("strong", AppConstant.srcVietBaoXML);
-        String goldNameTag = prop.getPropValue("goldName", AppConstant.srcVietBaoXML);
-        String ygoldNameTag = prop.getPropValue("yGoldName", AppConstant.srcVietBaoXML);
-        String goldPriceTag = prop.getPropValue("goldPrice", AppConstant.srcVietBaoXML);
-        String goldPriceUpTag = prop.getPropValue("uGoldPrice", AppConstant.srcVietBaoXML);
-        String goldPriceDownTag = prop.getPropValue("dGoldPrice", AppConstant.srcVietBaoXML);
+        getConfigProperties("dGoldPrice", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String divTag = getConfigProperties("div", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String tdTag =  getConfigProperties("td", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String strongTag =  getConfigProperties("strong", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String goldNameTag = getConfigProperties("goldName", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String ygoldNameTag = getConfigProperties("yGoldName", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String goldPriceTag = getConfigProperties("goldPrice", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String goldPriceUpTag = getConfigProperties("uGoldPrice", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+        String goldPriceDownTag = getConfigProperties("dGoldPrice", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
 
         while (eventReader.hasNext()) {
 
@@ -302,7 +322,10 @@ public class VietBaoCrawler extends BaseCrawler {
             }// close if event.startElement
             if (isBuy == true && isSale == true && isLast == true) {
                 boolean check = false;
-                dateFormat = NhiUtils.formatDate(date);
+                
+                String redundancy = getConfigProperties("formatUrlEle", AppConstant.srcVietBaoXML,
+                    this.getClass().getSimpleName());
+                dateFormat = date.replace(redundancy, "").trim();
                 dto.setDate(dateFormat);
                 System.out.println("Date " + dateFormat);
                 check = dao.insertGold(dto);

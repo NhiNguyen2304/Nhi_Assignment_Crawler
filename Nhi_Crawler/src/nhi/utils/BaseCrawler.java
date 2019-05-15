@@ -7,6 +7,9 @@ package nhi.utils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,6 +17,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -45,5 +51,30 @@ public class BaseCrawler {
         XMLEventReader reader = inputFactory.createXMLEventReader(inputStream);
         return reader;
     }
-
+protected String getConfigProperties(String name, String nameXml){
+        FileInputStream is = null;
+        
+        try {
+            File myFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getFile());
+            File f = new File(myFile.getCanonicalPath().replaceFirst("classes","") + "properties/webgia-xml.properties");
+            is = new FileInputStream(f);
+            
+            Properties prop = new Properties();
+            prop.loadFromXML(is);
+            return prop.getProperty(name);
+        } catch (FileNotFoundException ex) {
+             Logger.getLogger(BaseCrawler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(BaseCrawler.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            if (is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    Logger.getLogger(BaseCrawler.class.getName()).log(Level.SEVERE, null, e);
+                }
+            }
+        }
+        return null;
+    } 
 }
